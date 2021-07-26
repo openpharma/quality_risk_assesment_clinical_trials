@@ -1,0 +1,24 @@
+version: '3.7'
+services:
+  build_image:
+    build: .
+    image: 'qract'
+    command: /bin/bash
+  shell:
+    image: 'qract'
+    working_dir: /app
+    # make container wait
+    command: tail -F anything
+    volumes: 
+      - '.:/app'
+  rstudio:
+    image: 'qract'
+    ports: 
+      - '8787:8787'
+    volumes: 
+      - '.:/home/rstudio/app'
+    command: /init
+    environment:
+      PASSWORD: 'U&YaXK5Q%SG5M5'
+      USER: 'rstudio'
+        
