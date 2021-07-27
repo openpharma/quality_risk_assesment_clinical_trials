@@ -11,4 +11,6 @@ RUN rm -r targets/ -f
 
 RUN R -e "remotes::install_version('DT', repos='http://cran.us.r-project.org', version = '0.18' , upgrade = 'never')"
 RUN R -e "remotes::install_version('cowplot', repos='http://cran.us.r-project.org', version = '1.1.1' , upgrade = 'never')"
+RUN R -e "remotes::install_version('visNetwork', repos='http://cran.us.r-project.org', version = '2.0.9' , upgrade = 'never')"
 
+ENV XDG_CONFIG_HOME=/home/rstudio/app/.config/

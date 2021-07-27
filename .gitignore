@@ -5,6 +5,7 @@ data/in/*.csv
 # targets
 **/_targets.R
 **/_targets
+**/_targets_r
 
 # History files
 .Rhistory
