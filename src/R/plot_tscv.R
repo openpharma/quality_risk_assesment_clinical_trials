@@ -1,8 +1,8 @@
 
-plot_tscv <- function(df_mm_bin, df_cv, max_year = 2020) {
+plot_tscv <- function(df_mm, df_cv, max_year = 2020) {
 
     # we pick one random category to remove duplicates
-    df_label = df_mm_bin %>%
+    df_label = df_mm %>%
         filter(category_id == 'cnsn') %>%
         mutate(label = 'not used',
                year_start_act = lubridate::year(start_date)) %>%

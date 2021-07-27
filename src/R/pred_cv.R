@@ -61,15 +61,14 @@ filter_na <- function(df, form, id_vars){
 
 wr_glm = function(year,
                   category_id,
-                  resample_id,
                   index_train,
                   index_valid,
                   form,
                   data,
                   id_vars){
-  
+
   if(! 'index' %in% names(data) ){
-    print( paste(year, category_id, resample_id) )
+    print( paste(year, category_id) )
     stop('columns index is missing from data')
   }
   
@@ -84,7 +83,7 @@ wr_glm = function(year,
 
   if( nrow(df_train) == 0 | 
       nrow(df_valid) == 0 ){
-    print( paste(year, category_id, resample_id) )
+    print( paste(year, category_id) )
     stop('invalid index passed')
   }
   
@@ -150,4 +149,20 @@ wr_glm = function(year,
   return( tibble( pred_train = list(select(df_train, activity_id_new, pred_yes, obs = has_finding))
                 , pred_valid = list(select(df_valid, activity_id_new, pred_yes, obs = has_finding))
                 , coefs = list(coe)))
+}
+
+pred_cv <- function(df_mm_bin, df_cv, df_form, id_vars) {
+
+  df_cv %>%
+    inner_join(df_form, by = "category_id") %>%
+    mutate(index_past = str_index_2_int_index(index_past),
+           index_next_year = str_index_2_int_index(index_next_year)) %>%
+    mutate(
+      pred = pmap(
+        list(year_start_act, category_id, index_past, index_next_year, formula_str),
+        wr_glm,
+        df_mm_bin,
+        id_vars
+      )
+    )
 }
