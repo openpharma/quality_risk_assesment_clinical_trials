@@ -1,0 +1,12 @@
+# https://bookdown.org/yihui/rmarkdown/rmarkdown-site.html
+
+name: "Quality Risk Assesment Clinical Trials"
+output_dir: "../../docs"
+navbar:
+  title: "Quality Risk Assesment Clinical Trials"
+  type: inverse
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Test"
+      href: test.html
