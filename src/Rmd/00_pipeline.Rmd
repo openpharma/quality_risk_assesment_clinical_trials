@@ -3,7 +3,11 @@ title: "Pipeline"
 output: 
   html_document:
     toc: true
-    toc_float: true
+    number_sections: true
+    toc_float:
+      collapsed: false
+      smooth_scroll: false
+    toc_depth: 3
 editor_options: 
   chunk_output_type: console
 ---
@@ -118,7 +122,14 @@ list(
 ```{targets, perf}
 list(
   tar_target(df_perf, perf(df_cv_preds_and_coefs, config$max_year)),
-  tar_target(df_calib, lin_calib(df_cv_preds_and_coefs)),
+  tar_target(
+    df_calib,
+    lin_calib(
+      df_cv_preds_and_coefs,
+      uniform_color = "black"
+      color_calib = "grey"
+      )
+  ),
   tar_target(df_bin, bin_preds(df_cv_preds_and_coefs, n_bins = 4, confidence_level = .75)),
   tar_target(
     p_calib,

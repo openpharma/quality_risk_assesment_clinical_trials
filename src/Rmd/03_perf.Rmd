@@ -1,0 +1,65 @@
+---
+title: "Inspect Modelling Performance"
+output: 
+  html_document:
+    toc: true
+    number_sections: true
+    toc_float:
+      collapsed: false
+      smooth_scroll: false
+    toc_depth: 3
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r}
+suppressPackageStartupMessages(library(tidyverse))
+library(targets)
+library(DT)
+```
+
+```{r, eval = TRUE}
+knitr::opts_knit$set(root.dir = "../../")
+```
+
+# Perfermance Metrics
+
+```{r, perf}
+df_perf <- tar_read(df_perf)
+```
+
+
+## AUC
+
+```{r, auc}
+df_perf %>%
+  filter(.metric == "roc_auc") %>%
+  knitr::kable(digits = 2)
+```
+
+## Brier
+
+```{r brier}
+df_perf %>%
+  filter(.metric == "brier") %>%
+  knitr::kable(digits = 2)
+```
+
+
+# Calibration
+
+## Linear Calibration
+
+```{r}
+tar_read(df_calib) %>%
+  select(- plot_data) %>%
+  knitr::kable(digits = 3)
+```
+
+## Plot
+
+```{r}
+tar_read(p_calib)
+```
+

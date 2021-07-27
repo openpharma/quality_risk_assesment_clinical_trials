@@ -1,0 +1,87 @@
+---
+title: "Inspect Data"
+output: 
+  html_document:
+    toc: true
+    number_sections: true
+    toc_float:
+      collapsed: false
+      smooth_scroll: false
+    toc_depth: 3
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r}
+suppressPackageStartupMessages(library(tidyverse))
+library(targets)
+library(DT)
+```
+
+```{r, eval = TRUE}
+knitr::opts_knit$set(root.dir = "../../")
+```
+
+# Modelling Matrix
+
+## Original
+```{r}
+df_mm <- tar_read(df_mm)
+
+df_mm %>%
+  select(category_id, activity_id_new, has_finding, everything())
+
+tibble(columns = colnames(df_mm)) %>%
+  DT::datatable()
+```
+
+## Binned
+```{r}
+df_mm_bin <- tar_read(df_mm_bin)
+
+df_mm_bin %>%
+  select(category_id, activity_id_new, has_finding, everything())
+
+
+tibble(columns = colnames(df_mm_bin)) %>%
+  DT::datatable()
+```
+
+# Coefficients
+
+Modelling coefficients have been preselected.
+
+```{r}
+tar_read(df_form) %>%
+  DT::datatable()
+```
+
+# Cross Validation Indeces
+
+Indeces of modelling matrix that defines time series cross validation strategy.
+
+```{r}
+tar_read(df_cv)
+```
+
+# Lookup Tables
+
+## Features
+
+All names of all features and their variations.
+
+```{r}
+tar_read(df_feat_lookup) %>%
+  DT::datatable()
+```
+
+## Categories
+
+All finding statements mapped to clinical impact factors.
+
+```{r}
+tar_read(df_cat_lookup) %>%
+  DT::datatable()
+```
+

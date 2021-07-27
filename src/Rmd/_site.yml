@@ -8,5 +8,19 @@ navbar:
   left:
     - text: "Home"
       href: index.html
-    - text: "Test"
-      href: test.html
+    - text: "Pipeline"
+      href: 00_pipeline.html
+    - text: "Inspect Pipeline"
+      menu:
+      - text: "Data"
+        href: 01_data.html
+      - text: "Time Series Cross Validation"
+        href: 02_cv.html
+      - text: "Performance"
+        href: 03_perf.html
+      - text: "Forest Plots"
+        href: 04_forest.html
+  right:
+    - icon: fa-github
+      text: "Github"
+      href: https://github.com/openpharma/quality_risk_assesment_clinical_trials
