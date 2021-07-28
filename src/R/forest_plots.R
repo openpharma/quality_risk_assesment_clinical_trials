@@ -1,5 +1,5 @@
 
-plot_coef <- function(x, ci95_low, ci95_high, df_coef_final) {
+qract_plot_coef <- function(x, ci95_low, ci95_high, df_coef_final) {
   
   df <- tibble(x = x, ci95_high = ci95_high, ci95_low = ci95_low)
   
@@ -29,10 +29,10 @@ plot_coef <- function(x, ci95_low, ci95_high, df_coef_final) {
 }
 
 
-# plot_coef(x = 0.5, ci95_low = 0.25, ci95_high = 0.75)
+# qract_plot_coef(x = 0.5, ci95_low = 0.25, ci95_high = 0.75)
 
 
-plot_hist <- function(var = "n_iss_due", min = 0, max = 2, df_mm) {
+qract_plot_hist <- function(var = "n_iss_due", min = 0, max = 2, df_mm) {
   
   values <- df_mm[[var]]
   values <- values[! is.na(values)]
@@ -74,10 +74,10 @@ plot_hist <- function(var = "n_iss_due", min = 0, max = 2, df_mm) {
   
   return(p)
 }
-# plot_hist()
+# qract_plot_hist()
 
 
-plot_coef_time <- function(co = "medianelapsetimeHH", category_id_str = "ptpe", df_coef) {
+qract_plot_coef_time <- function(co = "medianelapsetimeHH", category_id_str = "ptpe", df_coef) {
   
   if(is.na(co) | ! co %in% df_coef$names) {
     p <- ggplot()
@@ -115,10 +115,10 @@ plot_coef_time <- function(co = "medianelapsetimeHH", category_id_str = "ptpe", 
   
   return(p)
 }
-# plot_coef_time()
+# qract_plot_coef_time()
 
 
-get_bin_stats <- function(var_str = "is_not_pediatric",
+qract_get_bin_stats <- function(var_str = "is_not_pediatric",
                           min = NA,
                           max = 1,
                           category_id_str = "cnsn",
@@ -192,10 +192,10 @@ get_bin_stats <- function(var_str = "is_not_pediatric",
          )
 }
 
-# get_bin_stats()
+# qract_get_bin_stats()
 
 
-plot_tab <- function(df_cv_preds_and_coefs,
+qract_plot_tab <- function(df_cv_preds_and_coefs,
                      df_feats,
                      df_mm,
                      df_cat,
@@ -268,7 +268,7 @@ plot_tab <- function(df_cv_preds_and_coefs,
     ungroup() %>%
     mutate(freq = pmap(
       list(var, min, max),
-      get_bin_stats,
+      qract_get_bin_stats,
       category_id_str = category_id_str,
       df_coef_final = df_coef_final,
       df_feats = df_feats,
@@ -298,8 +298,8 @@ plot_tab <- function(df_cv_preds_and_coefs,
   tb <- df_tab_prep2 %>%
     mutate(coef = row_number(),
            hist = row_number(),
-           min = map_chr(min, pretty_number),
-           max = map_chr(max, pretty_number),
+           min = map_chr(min, qract_pretty_number),
+           max = map_chr(max, qract_pretty_number),
            min_max = paste0("[", min, " - ", max, ")"),
            min_max = ifelse(min == "NA", "missing", min_max),
            zero_size_bin = ifelse(is.na(zero_size_bin), FALSE, zero_size_bin),
@@ -325,7 +325,7 @@ plot_tab <- function(df_cv_preds_and_coefs,
       fn = function(rwn) {
         pmap(
             list(df_tab_prep2$x, df_tab_prep2$ci95_low, df_tab_prep2$ci95_high),
-            plot_coef,
+            qract_plot_coef,
             df_coef_final
           ) %>%
           map(ggplot_image, height = px(25), aspect_ratio = 8)
@@ -336,7 +336,7 @@ plot_tab <- function(df_cv_preds_and_coefs,
       fn = function(rwn) {
         pmap(
             list(df_tab_prep2$var, df_tab_prep2$min, df_tab_prep2$max),
-            plot_hist,
+            qract_plot_hist,
             df_mm
           ) %>%
           map(ggplot_image, height = px(25), aspect_ratio = 3)
@@ -347,7 +347,7 @@ plot_tab <- function(df_cv_preds_and_coefs,
       fn = function(rwn) {
         map(
             df_tab_prep2$name_matrix_bin,
-            plot_coef_time,
+            qract_plot_coef_time,
             category_id_str,
             df_coef
           ) %>%
@@ -375,7 +375,7 @@ plot_tab <- function(df_cv_preds_and_coefs,
       locations = cells_body(columns = c("P"))
     ) %>%
     tab_header(
-      title = paste( str_to_title(pretty_category(category_id_str, df_cat)), "Related Audit and Inspection Findings"),
+      title = paste( str_to_title(qract_pretty_category(category_id_str, df_cat)), "Related Audit and Inspection Findings"),
       subtitle = "Adjusted Risk Factors"
     ) %>%
     tab_footnote(
@@ -432,7 +432,7 @@ plot_tab <- function(df_cv_preds_and_coefs,
 }
 
 
-forest_plots <- function(df_cv_preds_and_coefs,
+qract_forest_plots <- function(df_cv_preds_and_coefs,
                          df_feats,
                          df_mm,
                          df_cat,
@@ -442,7 +442,7 @@ forest_plots <- function(df_cv_preds_and_coefs,
     mutate(
       tab = map(
         category_id,
-         ~ plot_tab(
+         ~ qract_plot_tab(
              df_cv_preds_and_coefs,
              df_feats,
              df_mm,

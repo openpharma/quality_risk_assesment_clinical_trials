@@ -25,7 +25,7 @@ knitr::opts_knit$set(root.dir = "../../")
 
 # Perfermance Metrics
 
-```{r, perf}
+```{r, perf_metric}
 df_perf <- tar_read(df_perf)
 ```
 

@@ -1,4 +1,4 @@
-get_variables_from_formula = function( formula ) {
+qract_get_variables_from_formula = function( formula ) {
 
   if( ! inherits(formula, 'formula') ){
     stop('f_manip_get_variables_from_formula called with non formula object')
@@ -19,7 +19,7 @@ get_variables_from_formula = function( formula ) {
   return(vars)
 }
 
-str_index_2_int_index = function(x, del = ','){
+qract_str_index_2_int_index = function(x, del = ','){
 
   str_2_ints = function(str, del){
     str %>%
@@ -32,9 +32,9 @@ str_index_2_int_index = function(x, del = ','){
 
 }
 
-filter_na <- function(df, form, id_vars){
+qract_filter_na <- function(df, form, id_vars){
 
-  vars <- get_variables_from_formula(form) %>%
+  vars <- qract_get_variables_from_formula(form) %>%
     str_replace_all("(HH$)|(MH$)|(M$)|(ML$)|(LL$)|(NA$)", "") %>%
     unlist() %>%
     unique()
@@ -59,7 +59,7 @@ filter_na <- function(df, form, id_vars){
   return(df_na)
 }
 
-wr_glm = function(year,
+qract_wr_glm = function(year,
                   category_id,
                   index_train,
                   index_valid,
@@ -87,8 +87,8 @@ wr_glm = function(year,
     stop('invalid index passed')
   }
   
-  df_train <- filter_na(df_train, form, id_vars = id_vars)
-  df_valid <- filter_na(df_valid, form, id_vars = id_vars)
+  df_train <- qract_filter_na(df_train, form, id_vars = id_vars)
+  df_valid <- qract_filter_na(df_valid, form, id_vars = id_vars)
 
   safely_glm = safely(glm)
   safely_predict <- safely(predict.glm)
@@ -151,16 +151,16 @@ wr_glm = function(year,
                 , coefs = list(coe)))
 }
 
-pred_cv <- function(df_mm_bin, df_cv, df_form, id_vars) {
+qract_pred_cv <- function(df_mm_bin, df_cv, df_form, id_vars) {
 
   df_cv %>%
     inner_join(df_form, by = "category_id") %>%
-    mutate(index_past = str_index_2_int_index(index_past),
-           index_next_year = str_index_2_int_index(index_next_year)) %>%
+    mutate(index_past = qract_str_index_2_int_index(index_past),
+           index_next_year = qract_str_index_2_int_index(index_next_year)) %>%
     mutate(
       pred = pmap(
         list(year_start_act, category_id, index_past, index_next_year, formula_str),
-        wr_glm,
+        qract_wr_glm,
         df_mm_bin,
         id_vars
       )

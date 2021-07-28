@@ -1,5 +1,5 @@
 
-plot_tscv <- function(df_mm, df_cv, max_year = 2020) {
+qract_plot_tscv <- function(df_mm, df_cv, max_year = 2020) {
 
     # we pick one random category to remove duplicates
     df_label = df_mm %>%
@@ -16,7 +16,7 @@ plot_tscv <- function(df_mm, df_cv, max_year = 2020) {
         filter(category_id == 'cnsn') %>%
         select(year_start_act, index_past, index_next_year) %>%
         distinct() %>%
-        mutate_at(vars(index_past, index_next_year), str_index_2_int_index) %>%
+        mutate_at(vars(index_past, index_next_year), qract_str_index_2_int_index) %>%
         mutate( 
             data = list(df_label),
             data = map2(

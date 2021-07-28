@@ -8,9 +8,9 @@ navbar:
   left:
     - text: "Home"
       href: index.html
-    - text: "Pipeline"
-      href: 00_pipeline.html
-    - text: "Inspect Pipeline"
+    - text: "Workflow"
+      href: 00_workflow.html
+    - text: "Inspect Workflow"
       menu:
       - text: "Data"
         href: 01_data.html

@@ -1,4 +1,4 @@
-perf <- function(df_cv_pred_and_coefs, max_year = 2020) {
+qract_perf <- function(df_cv_pred_and_coefs, max_year = 2020) {
     df_prep <- df_cv_pred_and_coefs %>%
         mutate(pred = map(pred, "pred_valid")) %>%
         select(category_id, year_start_act, pred) %>%

@@ -1,6 +1,6 @@
 
 
-is_better <- function(x, y, type = "upper") {
+qract_is_better <- function(x, y, type = "upper") {
     if (type == "upper") {
         return(x > y)
     } else {
@@ -22,10 +22,10 @@ is_better <- function(x, y, type = "upper") {
 #' @param min_sample_size Default: 10
 #' @param max_sample_size Default: 1000
 #' @return double
-#' @rdname get_pred_boundary
+#' @rdname qract_get_pred_boundary
 #' @export
 #' @importFrom broom tidy
-get_pred_boundary <- function(df,
+qract_get_pred_boundary <- function(df,
                               type = "upper",
                               pval = 0.05,
                               min_sample_size = 50,
@@ -61,7 +61,7 @@ get_pred_boundary <- function(df,
 
         if (
                 prop_test$p.value <= pval & 
-                is_better(prop_test$estimate, best_prop, type)
+                qract_is_better(prop_test$estimate, best_prop, type)
             ) {
             best_prop <- prop_test$estimate
         }
@@ -72,14 +72,14 @@ get_pred_boundary <- function(df,
 }
 
 #' @title get prediction boundaries
-#' @description applies get_pred_boundary() returning lower and upper and baserate
+#' @description applies qract_get_pred_boundary() returning lower and upper and baserate
 #' @param df
 #' @param category_id_str  Default: 'cnsn'
-#' @param ... other parameters passed to get_pred_boundary()
+#' @param ... other parameters passed to qract_get_pred_boundary()
 #' @return dataframe with columns lower, base_rate and upper
-#' @rdname get_pred_boundaries
+#' @rdname qract_get_pred_boundaries
 #' @export 
-get_pred_boundaries <- function(df,  category_id_str = "cnsn", ...) {
+qract_get_pred_boundaries <- function(df,  category_id_str = "cnsn", ...) {
 
     if ("category_id" %in% colnames(df)) {
         df <- filter(df, category_id == category_id_str)
@@ -90,9 +90,9 @@ get_pred_boundaries <- function(df,  category_id_str = "cnsn", ...) {
     }
 
     tibble(
-        lower = get_pred_boundary(df, type = "lower", ...),
+        lower = qract_get_pred_boundary(df, type = "lower", ...),
         base_rate = mean(df$obs, na.rm = TRUE),
-        upper = get_pred_boundary(df, type = "upper", ...)
+        upper = qract_get_pred_boundary(df, type = "upper", ...)
     )
 
 }
@@ -104,10 +104,10 @@ get_pred_boundaries <- function(df,  category_id_str = "cnsn", ...) {
 #' @param category_id_str
 #' @return dataframe with slope and intercept
 #' @details DETAILS
-#' @rdname fit_linear_calibration
+#' @rdname qract_fit_linear_calibration
 #' @export 
 #' @importFrom broom tidy
-fit_linear_calibration <- function(df, category_id_str) {
+qract_fit_linear_calibration <- function(df, category_id_str) {
     if ("category_id" %in% colnames(df)) {
         df <- filter(df, category_id == category_id_str)
     }
@@ -130,26 +130,26 @@ fit_linear_calibration <- function(df, category_id_str) {
 }
 
 #' @title Linear Calibration mapable function
-#' @description applies fit_linear_calibration() and pred_bound(). Boundaries
+#' @description applies qract_fit_linear_calibration() and pred_bound(). Boundaries
 #'   serve as upper and lower limit to linear cailbration. Unless upper and
 #'   lower limit of linear calibration fit is more strict. Then linear
 #'   calibration is used to calibrate upper and lower boundaries.
 #' @param df PARAM_DESCRIPTION
 #' @param category_id_str PARAM_DESCRIPTION, Default: NULL
-#' @param ... additional arguments passed to get_pred_boundaries()
+#' @param ... additional arguments passed to qract_get_pred_boundaries()
 #' @return dataframe with upper, base_rate, lower, slope, intercept and nested
 #'   data frame with x-y coordinates for calibration plot
-#' @rdname linear_calib_map
+#' @rdname qract_linear_calib_map
 #' @export
-linear_calib_map <- function(df, category_id_str=NULL, ...) {
+qract_linear_calib_map <- function(df, category_id_str=NULL, ...) {
 
-    pred_bound <- get_pred_boundaries(
+    pred_bound <- qract_get_pred_boundaries(
         df,
         category_id_str = category_id_str,
         ...
     )
     
-    lin_calib <- fit_linear_calibration(
+    lin_calib <- qract_fit_linear_calibration(
         df,
         category_id_str = category_id_str
     )
@@ -168,14 +168,14 @@ linear_calib_map <- function(df, category_id_str=NULL, ...) {
 }
 
 #' @title linear calibration
-#' @description Applies mapable function linear_calib_map() and unnests results
+#' @description Applies mapable function qract_linear_calib_map() and unnests results
 #' @param df_cv_pred_and_coefs PARAM_DESCRIPTION
-#' @param ... additional arguments passed to get_pred_boundaries()
+#' @param ... additional arguments passed to qract_get_pred_boundaries()
 #' @return OUTPUT_DESCRIPTION
 #' @details DETAILS
-#' @rdname lin_calib
+#' @rdname qract_lin_calib
 #' @export 
-lin_calib <- function(df_cv_pred_and_coefs, ...) {
+qract_lin_calib <- function(df_cv_pred_and_coefs, ...) {
     df_prep <- df_cv_pred_and_coefs %>%
         mutate(pred = map(pred, "pred_valid")) %>%
         select(category_id, year_start_act, pred) %>%
@@ -185,7 +185,7 @@ lin_calib <- function(df_cv_pred_and_coefs, ...) {
         nest() %>%
         mutate(lin_calib = pmap(
                 list(data, category_id),
-                linear_calib_map,
+                qract_linear_calib_map,
                 ...)
                 ) %>%
     unnest(lin_calib) %>%

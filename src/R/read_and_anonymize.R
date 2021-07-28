@@ -1,6 +1,6 @@
 
 
-read_and_anonymize <- function(file, id_vars, .f) {
+qract_read_and_anonymize <- function(file, id_vars, .f) {
   
   df <- .f(file)
   

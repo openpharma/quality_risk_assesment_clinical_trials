@@ -1,6 +1,6 @@
 # cut width but make sure that minimum number of observatins can be found in 
 # each bucket, see examples below
-cut_relax <- function(x, n, min_size = 100) {
+qract_cut_relax <- function(x, n, min_size = 100) {
   
   breaks <- seq(min(x, na.rm = TRUE) * 0.9, max(x, na.rm = TRUE) * 1.1, length.out = n + 1)
   test_cut <- cut(x, breaks = breaks, include.lowest = TRUE)
@@ -52,17 +52,17 @@ cut_relax <- function(x, n, min_size = 100) {
 
 # x <- rgamma(750, shape = 5)
 # n = 6
-# cut_relax(x, n) %>%
+# qract_cut_relax(x, n) %>%
 #   summary()
 # 
 # cut(x, n) %>%
 #   summary()
 # 
-# cut_relax(max(x) - x, n) %>%
+# qract_cut_relax(max(x) - x, n) %>%
 #   summary()
 
 
-bin = function(df, n_bins){
+qract_bin = function(df, n_bins){
   
   # catch cases with very few unique prediction values
   n_unique = df$pred_yes %>%
@@ -80,7 +80,7 @@ bin = function(df, n_bins){
   n_bins = ifelse(n_unique > n_bins, n_bins, n_unique)
   
   df %>%
-    mutate( pred_bin = cut_relax(pred_yes, n = n_bins) ) %>%
+    mutate( pred_bin = qract_cut_relax(pred_yes, n = n_bins) ) %>%
     group_by(pred_bin) %>%
     summarise( obs_prop = sum(obs, na.rm = TRUE) / n()
                , n_obs_in_bin = n()
@@ -89,7 +89,7 @@ bin = function(df, n_bins){
   
 }
 
-bin_preds = function(df_cv_preds_and_coefs,
+qract_bin_preds = function(df_cv_preds_and_coefs,
                      confidence_level = 0.75,
                      n_bins = 4){
   df_cv_preds_and_coefs %>%
@@ -101,7 +101,7 @@ bin_preds = function(df_cv_preds_and_coefs,
     mutate(total_base_rate = sum(obs) / n()) %>%
     group_by(category_id, total_base_rate) %>%
     nest() %>% 
-    mutate(data = map(data, bin, n_bins)) %>%
+    mutate(data = map(data, qract_bin, n_bins)) %>%
     unnest(data) %>%
     ungroup() %>%
     filter(! is.na(pred_bin)) %>%

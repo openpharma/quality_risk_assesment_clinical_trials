@@ -1,6 +1,6 @@
 tar_target(
   df_forest,
-  forest_plots(
+  qract_forest_plots(
     df_cv_preds_and_coefs,
     df_feat_lookup,
     df_mm,

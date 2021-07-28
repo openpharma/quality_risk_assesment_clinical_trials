@@ -1,7 +1,7 @@
 
 library(tidyverse)
 
-pretty_category = function( x, df_cat, wrap_at = 0){
+qract_pretty_category = function( x, df_cat, wrap_at = 0){
   
   # id_mod ----------------------------
   df_look_cif_mod = df_cat %>%
@@ -72,11 +72,11 @@ pretty_category = function( x, df_cat, wrap_at = 0){
 # df_cat = feather::read_feather('data/proc/category_lookup.feather')
 # df_data = feather::read_feather('data/proc/modelling_matrix.feather')
 # 
-# pretty_category(df_data$category_id, df_cat)
+# qract_pretty_category(df_data$category_id, df_cat)
 
 
 
-pretty_number <- function(x, dig = 2) {
+qract_pretty_number <- function(x, dig = 2) {
   
   digits <- log10(abs(x))
   
@@ -111,22 +111,22 @@ pretty_number <- function(x, dig = 2) {
   
 }
 
-# pretty_number(18e8)
-# pretty_number(1.5e6)
-# pretty_number(1.5e4)
-# pretty_number(1.5e2)
-# pretty_number(0.52346545)
-# pretty_number(0.052346545)
-# pretty_number(0.0052346545)
-# pretty_number(0.00052346545)
+# qract_pretty_number(18e8)
+# qract_pretty_number(1.5e6)
+# qract_pretty_number(1.5e4)
+# qract_pretty_number(1.5e2)
+# qract_pretty_number(0.52346545)
+# qract_pretty_number(0.052346545)
+# qract_pretty_number(0.0052346545)
+# qract_pretty_number(0.00052346545)
 
 # 
-# pretty_number(-18e8)
-# pretty_number(-1.5e6)
-# pretty_number(-1.5e4)
-# pretty_number(-1.5e2)
-# pretty_number(-0.52346545)
-# pretty_number(-0.052346545)
-# pretty_number(-0.0052346545)
-# pretty_number(-0.00052346545)
+# qract_pretty_number(-18e8)
+# qract_pretty_number(-1.5e6)
+# qract_pretty_number(-1.5e4)
+# qract_pretty_number(-1.5e2)
+# qract_pretty_number(-0.52346545)
+# qract_pretty_number(-0.052346545)
+# qract_pretty_number(-0.0052346545)
+# qract_pretty_number(-0.00052346545)
 

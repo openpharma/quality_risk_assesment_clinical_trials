@@ -1,6 +1,6 @@
 
 
-plot_calibration = function(category_id_str = 'sfty'
+qract_plot_calibration = function(category_id_str = 'sfty'
                             , df_calib
                             , df_calib_fit = NULL
                             , df_lin_calib = NULL
@@ -59,7 +59,7 @@ plot_calibration = function(category_id_str = 'sfty'
   return(p)
 }
 
-plot_calibration_pub = function(category_id_str = 'sfty',
+qract_plot_calibration_pub = function(category_id_str = 'sfty',
                                 df_calib,
                                 df_lin_calib,
                                 df_cat,
@@ -69,19 +69,19 @@ plot_calibration_pub = function(category_id_str = 'sfty',
 
   colors <- rep(uniform_color, length(category_id_str))
   
-  names(colors) <- pretty_category(category_id_str, df_cat = df_cat)
+  names(colors) <- qract_pretty_category(category_id_str, df_cat = df_cat)
   
   df_calib <- df_calib %>%
     ungroup() %>%
-    mutate(category_id = pretty_category(category_id, df_cat = df_cat))
+    mutate(category_id = qract_pretty_category(category_id, df_cat = df_cat))
   
   df_lin_calib <- df_lin_calib %>%
     ungroup() %>%
-    mutate(category_id = pretty_category(category_id, df_cat = df_cat))
+    mutate(category_id = qract_pretty_category(category_id, df_cat = df_cat))
     
-  category_id_str <- pretty_category(category_id_str, df_cat = df_cat)
+  category_id_str <- qract_pretty_category(category_id_str, df_cat = df_cat)
     
-  p <- plot_calibration(df_calib = df_calib,
+  p <- qract_plot_calibration(df_calib = df_calib,
                        df_lin_calib = df_lin_calib,
                        category_id_str = category_id_str,
                        colors = colors,

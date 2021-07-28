@@ -10,5 +10,4 @@ tar_option_set(
     "arrow"
     )
   )
-script_files <- dir("./src/R", full.names = TRUE)
-purrr::map(script_files, source)
+purrr::map(dir("./src/R", full.names = TRUE), source)

@@ -1,5 +1,5 @@
 ---
-title: "Pipeline"
+title: "Workflow"
 output: 
   html_document:
     toc: true
@@ -99,12 +99,12 @@ list(
 
 ```{targets, load}
 list(
-  tar_target(df_mm, read_and_anonymize(file_mm, config$id_vars, arrow::read_feather)),
-  tar_target(df_mm_bin, read_and_anonymize(file_mm_bin, config$id_vars, arrow::read_feather)),
-  tar_target(df_form, read_and_anonymize(file_form,  config$id_vars, arrow::read_feather)),
-  tar_target(df_cv, read_and_anonymize(file_cv,  config$id_vars, arrow::read_feather)),
-  tar_target(df_cat_lookup, read_and_anonymize(file_cat_lookup, config$id_vars, arrow::read_feather)),
-  tar_target(df_feat_lookup, read_and_anonymize(file_feat_lookup, config$id_vars, readr::read_csv))
+  tar_target(df_mm, qract_read_and_anonymize(file_mm, config$id_vars, arrow::read_feather)),
+  tar_target(df_mm_bin, qract_read_and_anonymize(file_mm_bin, config$id_vars, arrow::read_feather)),
+  tar_target(df_form, qract_read_and_anonymize(file_form,  config$id_vars, arrow::read_feather)),
+  tar_target(df_cv, qract_read_and_anonymize(file_cv,  config$id_vars, arrow::read_feather)),
+  tar_target(df_cat_lookup, qract_read_and_anonymize(file_cat_lookup, config$id_vars, arrow::read_feather)),
+  tar_target(df_feat_lookup, qract_read_and_anonymize(file_feat_lookup, config$id_vars, readr::read_csv))
 )
 ```
 
@@ -112,8 +112,8 @@ list(
 
 ```{targets, cv}
 list(
-  tar_target(p_tscv, plot_tscv(df_mm, df_cv, config$max_year)),
-  tar_target(df_cv_preds_and_coefs, pred_cv(df_mm_bin, df_cv, df_form, config$id_vars))
+  tar_target(p_tscv, qract_plot_tscv(df_mm, df_cv, config$max_year)),
+  tar_target(df_cv_preds_and_coefs, qract_pred_cv(df_mm_bin, df_cv, df_form, config$id_vars))
 )
 ```
 
@@ -121,23 +121,18 @@ list(
 
 ```{targets, perf}
 list(
-  tar_target(df_perf, perf(df_cv_preds_and_coefs, config$max_year)),
-  tar_target(
-    df_calib,
-    lin_calib(
-      df_cv_preds_and_coefs,
-      uniform_color = "black"
-      color_calib = "grey"
-      )
-  ),
-  tar_target(df_bin, bin_preds(df_cv_preds_and_coefs, n_bins = 4, confidence_level = .75)),
+  tar_target(df_perf, qract_perf(df_cv_preds_and_coefs, config$max_year)),
+  tar_target(df_calib, qract_lin_calib(df_cv_preds_and_coefs)),
+  tar_target(df_bin, qract_bin_preds(df_cv_preds_and_coefs, n_bins = 4, confidence_level = .75)),
   tar_target(
     p_calib,
-    plot_calibration_pub(
+    qract_plot_calibration_pub(
       category_id_str = df_cv_preds_and_coefs$category_id %>% unique(),
       df_bin,
       df_calib,
-      df_cat_lookup
+      df_cat_lookup,
+      uniform_color = "black",
+      color_calib = "grey"
       )
   )
 )
@@ -148,7 +143,7 @@ list(
 ```{targets, forest}
 tar_target(
   df_forest,
-  forest_plots(
+  qract_forest_plots(
     df_cv_preds_and_coefs,
     df_feat_lookup,
     df_mm,
@@ -163,14 +158,14 @@ tar_target(
 )
 ```
 
-# Run Pipeline
+# Run Workflow
 
 ```{r, make}
 tar_make()
 ```
 
 
-# Visualise Pipeline
+# Visualise Workflow
 
 ```{r, vis, fig.height=18, fig.width=12, eval = TRUE, include = TRUE}
 tar_visnetwork()
