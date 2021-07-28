@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Workflow</title>
+
+<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<link href="site_libs/vis-4.20.1/vis.css" rel="stylesheet" />
+<script src="site_libs/vis-4.20.1/vis.min.js"></script>
+<script src="site_libs/visNetwork-binding-2.0.9/visNetwork.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Quality Risk Assesment Clinical Trials</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="00_workflow.html">Workflow</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Inspect Workflow
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="01_data.html">Data</a>
+    </li>
+    <li>
+      <a href="02_cv.html">Time Series Cross Validation</a>
+    </li>
+    <li>
+      <a href="03_perf.html">Performance</a>
+    </li>
+    <li>
+      <a href="04_forest.html">Forest Plots</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/openpharma/quality_risk_assesment_clinical_trials">
+    <span class="fa fa-github"></span>
+     
+    Github
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Workflow</h1>
+
+</div>
+
+
+<pre class="r"><code>suppressPackageStartupMessages(library(tidyverse))
+library(targets)
+library(visNetwork)</code></pre>
+<pre class="r"><code>knitr::opts_knit$set(root.dir = &quot;../../&quot;, tar_interactive = FALSE, collapse = TRUE, comment = &quot;#&gt;&quot;)
+tar_unscript()</code></pre>
+<div id="workflow" class="section level1">
+<h1>Workflow</h1>
+<div id="globals" class="section level2">
+<h2>Globals</h2>
+<pre class="r"><code>options(tidyverse.quiet = TRUE)
+tar_option_set(
+  packages = c(
+    &quot;gt&quot;,
+    &quot;yardstick&quot;,
+    &quot;broom&quot;,
+    &quot;cowplot&quot;,
+    &quot;glue&quot;,
+    &quot;tidyverse&quot;,
+    &quot;arrow&quot;
+    )
+  )
+purrr::map(dir(&quot;./src/R&quot;, full.names = TRUE), source)</code></pre>
+<pre><code>## Ran code and assigned objects to the environment.</code></pre>
+</div>
+<div id="targets" class="section level2">
+<h2>Targets</h2>
+<div id="config" class="section level3">
+<h3>Config</h3>
+<pre class="r"><code>tar_target(
+  config,
+  list(
+    # columns that are not features
+    id_vars = c(
+      &#39;category_id&#39;,
+      &#39;modelling_category&#39;,
+      &#39;classification&#39;,
+      &#39;activity_id_new&#39;,
+      &#39;start_date&#39;,
+      &#39;index&#39;,
+      &#39;date_first_study_activity&#39;,
+      &#39;date_last_study_activity&#39;,
+      &#39;protocol&#39;,
+      &#39;file_name&#39;,
+      &#39;source_row_index&#39;,
+      &#39;audit_or_inspection&#39;,
+      &#39;site_platinum_id&#39;,
+      &#39;pi_platinum_id&#39;,
+      &#39;site_num&#39;,
+      &#39;country&#39;,
+      &#39;site_activation_date&#39;,
+      &#39;site_closed_date&#39;,
+      &#39;site_closed_date_corr&#39;,
+      &#39;study_start_date&#39;,
+      &#39;study_end_date&#39;
+     ),
+     max_year = 2020
+   )
+)</code></pre>
+<pre><code>## Ran targets and assigned them to the environment.</code></pre>
+</div>
+<div id="data" class="section level3">
+<h3>Data</h3>
+<div id="files" class="section level4">
+<h4>Files</h4>
+<pre class="r"><code>list(
+  tar_target(file_mm, &quot;data/in/modelling_matrix.feather&quot;, format = &quot;file&quot;),
+  tar_target(file_mm_bin, &quot;data/in/lasso_prep.feather&quot;, format = &quot;file&quot;),
+  tar_target(file_form, &quot;data/in/glm_coefs.feather&quot;, format = &quot;file&quot;),
+  tar_target(file_cv, &quot;data/in/indeces_annual_splits.feather&quot;, format = &quot;file&quot;),
+  tar_target(file_cat_lookup, &quot;data/in/category_lookup.feather&quot;, format = &quot;file&quot;),
+  tar_target(file_feat_lookup, &quot;data/in/feature_lookup.csv&quot;, format = &quot;file&quot;)
+)</code></pre>
+<pre><code>## Ran targets and assigned them to the environment.</code></pre>
+</div>
+<div id="load" class="section level4">
+<h4>Load</h4>
+<pre class="r"><code>list(
+  tar_target(df_mm, qract_read_and_anonymize(file_mm, config$id_vars, arrow::read_feather)),
+  tar_target(df_mm_bin, qract_read_and_anonymize(file_mm_bin, config$id_vars, arrow::read_feather)),
+  tar_target(df_form, qract_read_and_anonymize(file_form,  config$id_vars, arrow::read_feather)),
+  tar_target(df_cv, qract_read_and_anonymize(file_cv,  config$id_vars, arrow::read_feather)),
+  tar_target(df_cat_lookup, qract_read_and_anonymize(file_cat_lookup, config$id_vars, arrow::read_feather)),
+  tar_target(df_feat_lookup, qract_read_and_anonymize(file_feat_lookup, config$id_vars, readr::read_csv))
+)</code></pre>
+<pre><code>## Ran targets and assigned them to the environment.</code></pre>
+</div>
+</div>
+<div id="time-series-cross-validation" class="section level3">
+<h3>Time Series Cross Validation</h3>
+<pre class="r"><code>list(
+  tar_target(p_tscv, qract_plot_tscv(df_mm, df_cv, config$max_year)),
+  tar_target(df_cv_preds_and_coefs, qract_pred_cv(df_mm_bin, df_cv, df_form, config$id_vars))
+)</code></pre>
+<pre><code>## Ran targets and assigned them to the environment.</code></pre>
+</div>
+<div id="performance" class="section level3">
+<h3>Performance</h3>
+<pre class="r"><code>list(
+  tar_target(df_perf, qract_perf(df_cv_preds_and_coefs, config$max_year)),
+  tar_target(df_calib, qract_lin_calib(df_cv_preds_and_coefs)),
+  tar_target(df_bin, qract_bin_preds(df_cv_preds_and_coefs, n_bins = 4, confidence_level = .75)),
+  tar_target(
+    p_calib,
+    qract_plot_calibration_pub(
+      category_id_str = df_cv_preds_and_coefs$category_id %&gt;% unique(),
+      df_bin,
+      df_calib,
+      df_cat_lookup,
+      uniform_color = &quot;black&quot;,
+      color_calib = &quot;grey&quot;
+      )
+  )
+)</code></pre>
+<pre><code>## Ran targets and assigned them to the environment.</code></pre>
+</div>
+<div id="forest-plots" class="section level3">
+<h3>Forest Plots</h3>
+<pre class="r"><code>tar_target(
+  df_forest,
+  qract_forest_plots(
+    df_cv_preds_and_coefs,
+    df_feat_lookup,
+    df_mm,
+    df_cat_lookup,
+    category_ids = c(
+      &quot;cnsn&quot;,
+      &quot;dtin&quot;,
+      &quot;sfty&quot;,
+      &quot;ptpe&quot;
+    )
+  )
+)</code></pre>
+<pre><code>## Ran targets and assigned them to the environment.</code></pre>
+</div>
+</div>
+<div id="run-workflow" class="section level2">
+<h2>Run Workflow</h2>
+<pre class="r"><code>tar_make()
+## 
+-
+
+\
+
+|
+
+/
+
+-
+
+\
+
+|
+
+/
+
+-
+
+\
+
+|
+[32m✓[39m skip target config
+## 
+/
+[32m✓[39m skip target file_form
+## 
+-
+[32m✓[39m skip target file_cat_lookup
+## 
+\
+[32m✓[39m skip target file_cv
+## 
+|
+[32m✓[39m skip target file_mm
+## 
+/
+[32m✓[39m skip target file_mm_bin
+## 
+-
+[32m✓[39m skip target file_feat_lookup
+## 
+\
+[32m✓[39m skip target df_form
+## 
+|
+[32m✓[39m skip target df_cat_lookup
+## 
+/
+[32m✓[39m skip target df_cv
+## 
+-
+[32m✓[39m skip target df_mm
+## 
+\
+[32m✓[39m skip target df_mm_bin
+## 
+|
+[32m✓[39m skip target df_feat_lookup
+## 
+/
+[32m✓[39m skip target p_tscv
+## 
+-
+[32m✓[39m skip target df_cv_preds_and_coefs
+## 
+\
+[32m✓[39m skip target df_bin
+## 
+|
+[32m✓[39m skip target df_calib
+## 
+/
+[32m✓[39m skip target df_forest
+## 
+-
+[32m✓[39m skip target df_perf
+## 
+\
+[32m✓[39m skip target p_calib
+## 
+|
+[32m✓[39m skip pipeline
+## 
+/
+
+-
+
+ </code></pre>
+</div>
+<div id="visualise-workflow" class="section level2">
+<h2>Visualise Workflow</h2>
+<div id="without-functions" class="section level3">
+<h3>Without Functions</h3>
+<pre class="r"><code>tar_visnetwork(targets_only = TRUE, reporter = &quot;silent&quot;)</code></pre>
+<pre><code>## 
+-
+
+\
+
+|
+
+/
+
+-
+
+\
+
+|
+
+/
+
+-
+
+\
+
+|
+
+/
+
+-
+
+ </code></pre>
+<div id="htmlwidget-f23586ed6f2bad755a06" style="width:960px;height:672px;" class="visNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f23586ed6f2bad755a06">{"x":{"nodes":{"name":["config","df_bin","df_calib","df_cat_lookup","df_cv","df_cv_preds_and_coefs","df_feat_lookup","df_forest","df_form","df_mm","df_mm_bin","df_perf","file_cat_lookup","file_cv","file_feat_lookup","file_form","file_mm","file_mm_bin","p_calib","p_tscv"],"type":["stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem"],"status":["uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate"],"seconds":[0.368,0.587,6.067,0.008,0.008,10.533,0.587,5.726,0.084,0.22,0.465,0.207,0.002,0.001,0.001,0.002,0.001,0.001,0.459,0.97],"bytes":[310,1433,3778,9711,15642,121829,27922,18350415,486,4388839,1569448,401,66704,146920,126879,1136,25178448,99174136,135038,154365],"branches":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],"id":["config","df_bin","df_calib","df_cat_lookup","df_cv","df_cv_preds_and_coefs","df_feat_lookup","df_forest","df_form","df_mm","df_mm_bin","df_perf","file_cat_lookup","file_cv","file_feat_lookup","file_form","file_mm","file_mm_bin","p_calib","p_tscv"],"label":["config","df_bin","df_calib","df_cat_lookup","df_cv","df_cv_preds_and_coefs","df_feat_lookup","df_forest","df_form","df_mm","df_mm_bin","df_perf","file_cat_lookup","file_cv","file_feat_lookup","file_form","file_mm","file_mm_bin","p_calib","p_tscv"],"level":[1,4,4,2,2,3,2,4,2,2,2,4,1,1,1,1,1,1,5,3],"color":["#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823"],"shape":["dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot"]},"edges":{"from":["df_cv_preds_and_coefs","config","file_form","df_cv_preds_and_coefs","config","file_cv","config","file_cat_lookup","config","df_cv","df_form","df_mm_bin","config","file_mm","config","file_mm_bin","config","df_cv","df_mm","df_cat_lookup","df_cv_preds_and_coefs","df_feat_lookup","df_mm","config","file_feat_lookup","config","df_cv_preds_and_coefs","df_bin","df_calib","df_cat_lookup","df_cv_preds_and_coefs"],"to":["df_bin","df_form","df_form","df_calib","df_cv","df_cv","df_cat_lookup","df_cat_lookup","df_cv_preds_and_coefs","df_cv_preds_and_coefs","df_cv_preds_and_coefs","df_cv_preds_and_coefs","df_mm","df_mm","df_mm_bin","df_mm_bin","p_tscv","p_tscv","p_tscv","df_forest","df_forest","df_forest","df_forest","df_feat_lookup","df_feat_lookup","df_perf","df_perf","p_calib","p_calib","p_calib","p_calib"],"arrows":["to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":false},"manipulation":{"enabled":false},"edges":{"smooth":{"type":"cubicBezier","forceDirection":"horizontal"}},"physics":{"stabilization":false},"layout":{"hierarchical":{"enabled":true,"direction":"LR"}}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":true,"hoverNearest":false,"degree":{"from":1,"to":1},"algorithm":"hierarchical","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":true,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"legend":{"width":0.2,"useGroups":false,"position":"right","ncol":1,"stepX":100,"stepY":100,"zoom":true,"nodes":{"label":["Up to date","Stem"],"color":["#354823","#899DA4"],"shape":["dot","dot"]},"nodesToDataframe":true}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="with-functions" class="section level3">
+<h3>With Functions</h3>
+<pre class="r"><code>tar_visnetwork(reporter = &quot;silent&quot;)
+## 
+-
+
+\
+
+|
+
+/
+
+-
+
+\
+
+|
+
+/
+
+-
+
+\
+
+|
+
+/
+
+-
+
+\
+
+ </code></pre>
+<div id="htmlwidget-db72da7fd7b2f4015d15" style="width:1152px;height:1728px;" class="visNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-db72da7fd7b2f4015d15">{"x":{"nodes":{"name":["config","df_bin","df_calib","df_cat_lookup","df_cv","df_cv_preds_and_coefs","df_feat_lookup","df_forest","df_form","df_mm","df_mm_bin","df_perf","file_cat_lookup","file_cv","file_feat_lookup","file_form","file_mm","file_mm_bin","p_calib","p_tscv","qract_plot_coef","qract_is_better","qract_cut_relax","qract_plot_calibration","qract_pretty_category","qract_str_index_2_int_index","qract_get_bin_stats","qract_plot_hist","qract_read_and_anonymize","qract_perf","qract_pretty_number","qract_fit_linear_calibration","qract_plot_coef_time","qract_get_variables_from_formula","qract_get_pred_boundary","qract_bin","qract_plot_calibration_pub","qract_plot_tscv","qract_plot_tab","qract_filter_na","qract_get_pred_boundaries","qract_bin_preds","qract_forest_plots","qract_wr_glm","qract_linear_calib_map","qract_pred_cv","qract_lin_calib"],"type":["stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function"],"status":["uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate"],"seconds":[0.368,0.587,6.067,0.008,0.008,10.533,0.587,5.726,0.084,0.22,0.465,0.207,0.002,0.001,0.001,0.002,0.001,0.001,0.459,0.97,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],"bytes":[310,1433,3778,9711,15642,121829,27922,18350415,486,4388839,1569448,401,66704,146920,126879,1136,25178448,99174136,135038,154365,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],"branches":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],"id":["config","df_bin","df_calib","df_cat_lookup","df_cv","df_cv_preds_and_coefs","df_feat_lookup","df_forest","df_form","df_mm","df_mm_bin","df_perf","file_cat_lookup","file_cv","file_feat_lookup","file_form","file_mm","file_mm_bin","p_calib","p_tscv","qract_plot_coef","qract_is_better","qract_cut_relax","qract_plot_calibration","qract_pretty_category","qract_str_index_2_int_index","qract_get_bin_stats","qract_plot_hist","qract_read_and_anonymize","qract_perf","qract_pretty_number","qract_fit_linear_calibration","qract_plot_coef_time","qract_get_variables_from_formula","qract_get_pred_boundary","qract_bin","qract_plot_calibration_pub","qract_plot_tscv","qract_plot_tab","qract_filter_na","qract_get_pred_boundaries","qract_bin_preds","qract_forest_plots","qract_wr_glm","qract_linear_calib_map","qract_pred_cv","qract_lin_calib"],"label":["config","df_bin","df_calib","df_cat_lookup","df_cv","df_cv_preds_and_coefs","df_feat_lookup","df_forest","df_form","df_mm","df_mm_bin","df_perf","file_cat_lookup","file_cv","file_feat_lookup","file_form","file_mm","file_mm_bin","p_calib","p_tscv","qract_plot_coef","qract_is_better","qract_cut_relax","qract_plot_calibration","qract_pretty_category","qract_str_index_2_int_index","qract_get_bin_stats","qract_plot_hist","qract_read_and_anonymize","qract_perf","qract_pretty_number","qract_fit_linear_calibration","qract_plot_coef_time","qract_get_variables_from_formula","qract_get_pred_boundary","qract_bin","qract_plot_calibration_pub","qract_plot_tscv","qract_plot_tab","qract_filter_na","qract_get_pred_boundaries","qract_bin_preds","qract_forest_plots","qract_wr_glm","qract_linear_calib_map","qract_pred_cv","qract_lin_calib"],"level":[1,6,6,2,2,5,2,6,2,2,2,6,1,1,1,1,1,1,7,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,3,3,3,3,4,4,5],"color":["#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823"],"shape":["dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle"]},"edges":{"from":["qract_plot_coef","qract_filter_na","qract_wr_glm","qract_get_pred_boundary","qract_get_pred_boundaries","qract_is_better","qract_bin","qract_cut_relax","qract_linear_calib_map","qract_plot_calibration","qract_pretty_category","qract_pretty_category","qract_str_index_2_int_index","qract_str_index_2_int_index","qract_plot_tab","qract_get_bin_stats","qract_plot_hist","qract_pretty_number","qract_fit_linear_calibration","qract_plot_coef_time","qract_get_variables_from_formula","df_cv_preds_and_coefs","qract_bin_preds","config","file_form","qract_read_and_anonymize","df_cv_preds_and_coefs","qract_lin_calib","config","file_cv","qract_read_and_anonymize","config","file_cat_lookup","qract_read_and_anonymize","config","df_cv","df_form","df_mm_bin","qract_pred_cv","config","file_mm","qract_read_and_anonymize","config","file_mm_bin","qract_read_and_anonymize","config","df_cv","df_mm","qract_plot_tscv","df_cat_lookup","df_cv_preds_and_coefs","df_feat_lookup","df_mm","qract_forest_plots","config","file_feat_lookup","qract_read_and_anonymize","config","df_cv_preds_and_coefs","qract_perf","df_bin","df_calib","df_cat_lookup","df_cv_preds_and_coefs","qract_plot_calibration_pub"],"to":["qract_plot_tab","qract_wr_glm","qract_pred_cv","qract_get_pred_boundaries","qract_linear_calib_map","qract_get_pred_boundary","qract_bin_preds","qract_bin","qract_lin_calib","qract_plot_calibration_pub","qract_plot_calibration_pub","qract_plot_tab","qract_plot_tscv","qract_pred_cv","qract_forest_plots","qract_plot_tab","qract_plot_tab","qract_plot_tab","qract_linear_calib_map","qract_plot_tab","qract_filter_na","df_bin","df_bin","df_form","df_form","df_form","df_calib","df_calib","df_cv","df_cv","df_cv","df_cat_lookup","df_cat_lookup","df_cat_lookup","df_cv_preds_and_coefs","df_cv_preds_and_coefs","df_cv_preds_and_coefs","df_cv_preds_and_coefs","df_cv_preds_and_coefs","df_mm","df_mm","df_mm","df_mm_bin","df_mm_bin","df_mm_bin","p_tscv","p_tscv","p_tscv","p_tscv","df_forest","df_forest","df_forest","df_forest","df_forest","df_feat_lookup","df_feat_lookup","df_feat_lookup","df_perf","df_perf","df_perf","p_calib","p_calib","p_calib","p_calib","p_calib"],"arrows":["to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":false},"manipulation":{"enabled":false},"edges":{"smooth":{"type":"cubicBezier","forceDirection":"horizontal"}},"physics":{"stabilization":false},"layout":{"hierarchical":{"enabled":true,"direction":"LR"}}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":true,"hoverNearest":false,"degree":{"from":1,"to":1},"algorithm":"hierarchical","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":true,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"legend":{"width":0.2,"useGroups":false,"position":"right","ncol":1,"stepX":100,"stepY":100,"zoom":true,"nodes":{"label":["Up to date","Stem","Function"],"color":["#354823","#899DA4","#899DA4"],"shape":["dot","dot","triangle"]},"nodesToDataframe":true}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = false;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
