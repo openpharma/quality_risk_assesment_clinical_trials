@@ -1,17 +1,10 @@
 ---
 title: "Inspect Time Series Cross Validation"
-output: 
-  html_document:
-    toc: true
-    number_sections: true
-    toc_float:
-      collapsed: false
-      smooth_scroll: false
-    toc_depth: 3
 editor_options: 
   chunk_output_type: console
 ---
 
+# Inspect Time Series Cross Validation
 
 ```{r}
 suppressPackageStartupMessages(library(tidyverse))
@@ -23,13 +16,13 @@ library(DT)
 knitr::opts_knit$set(root.dir = "../../")
 ```
 
-# Strategy
+## Strategy
 
 ```{r p_tscv, fig.width = 10}
 tar_read(p_tscv)
 ```
 
-# Predictions
+## Predictions
 
 ```{r}
 df_cv_preds_and_coefs <- tar_read(df_cv_preds_and_coefs)
@@ -46,7 +39,7 @@ df_cv_preds_and_coefs %>%
   unnest(pred_valid)
 ```
 
-# Coefficients
+## Coefficients
 
 ```{r}
 df_cv_preds_and_coefs %>%

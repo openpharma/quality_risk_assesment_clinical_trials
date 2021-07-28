@@ -1,17 +1,11 @@
 ---
 title: "Inspect Data"
-output: 
-  html_document:
-    toc: true
-    number_sections: true
-    toc_float:
-      collapsed: false
-      smooth_scroll: false
-    toc_depth: 3
 editor_options: 
   chunk_output_type: console
 ---
 
+
+# Inspect Data
 
 ```{r}
 suppressPackageStartupMessages(library(tidyverse))
@@ -23,9 +17,9 @@ library(DT)
 knitr::opts_knit$set(root.dir = "../../")
 ```
 
-# Modelling Matrix
+## Modelling Matrix
 
-## Original
+### Original
 ```{r}
 df_mm <- tar_read(df_mm)
 
@@ -36,7 +30,7 @@ tibble(columns = colnames(df_mm)) %>%
   DT::datatable()
 ```
 
-## Binned
+### Binned
 ```{r}
 df_mm_bin <- tar_read(df_mm_bin)
 
@@ -48,7 +42,7 @@ tibble(columns = colnames(df_mm_bin)) %>%
   DT::datatable()
 ```
 
-# Coefficients
+## Coefficients
 
 Modelling coefficients have been preselected.
 
@@ -57,7 +51,7 @@ tar_read(df_form) %>%
   DT::datatable()
 ```
 
-# Cross Validation Indeces
+## Cross Validation Indeces
 
 Indeces of modelling matrix that defines time series cross validation strategy.
 
@@ -65,9 +59,9 @@ Indeces of modelling matrix that defines time series cross validation strategy.
 tar_read(df_cv)
 ```
 
-# Lookup Tables
+## Lookup Tables
 
-## Features
+### Features
 
 All names of all features and their variations.
 
@@ -76,7 +70,7 @@ tar_read(df_feat_lookup) %>%
   DT::datatable()
 ```
 
-## Categories
+### Categories
 
 All finding statements mapped to clinical impact factors.
 

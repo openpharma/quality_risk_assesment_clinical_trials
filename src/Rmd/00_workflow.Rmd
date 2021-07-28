@@ -3,7 +3,7 @@ title: "Workflow"
 output: 
   html_document:
     toc: true
-    number_sections: true
+    number_sections: false
     toc_float:
       collapsed: false
       smooth_scroll: false
@@ -20,14 +20,15 @@ library(visNetwork)
 ```
 
 ```{r, eval = TRUE}
-knitr::opts_knit$set(root.dir = "../../")
+knitr::opts_knit$set(root.dir = "../../", tar_interactive = FALSE, collapse = TRUE, comment = "#>")
 tar_unscript()
 ```
 
+# Workflow
 
-# Globals
+## Globals
 
-```{targets globals, targets = FALSE}
+```{targets globals, tar_globals = TRUE}
 options(tidyverse.quiet = TRUE)
 tar_option_set(
   packages = c(
@@ -43,9 +44,9 @@ tar_option_set(
 purrr::map(dir("./src/R", full.names = TRUE), source)
 ```
 
-# Targets
+## Targets
 
-## Config
+### Config
 
 ```{targets config}
 tar_target(
@@ -81,9 +82,9 @@ tar_target(
 ```
 
 
-## Data
+### Data
 
-### Files
+#### Files
 ```{targets, files}
 list(
   tar_target(file_mm, "data/in/modelling_matrix.feather", format = "file"),
@@ -95,7 +96,7 @@ list(
 )
 ```
 
-### Load
+#### Load
 
 ```{targets, load}
 list(
@@ -108,7 +109,7 @@ list(
 )
 ```
 
-## Time Series Cross Validation
+### Time Series Cross Validation
 
 ```{targets, cv}
 list(
@@ -117,7 +118,7 @@ list(
 )
 ```
 
-## Performance
+### Performance
 
 ```{targets, perf}
 list(
@@ -138,7 +139,7 @@ list(
 )
 ```
 
-## Forest Plots
+### Forest Plots
 
 ```{targets, forest}
 tar_target(
@@ -158,16 +159,25 @@ tar_target(
 )
 ```
 
-# Run Workflow
+## Run Workflow
 
-```{r, make}
+```{r, make, message=FALSE, echo = TRUE, results = 'hold', collapse=TRUE}
 tar_make()
 ```
 
 
-# Visualise Workflow
+## Visualise Workflow
 
-```{r, vis, fig.height=18, fig.width=12, eval = TRUE, include = TRUE}
-tar_visnetwork()
+### Without Functions
+
+```{r, vis2, fig.height=7, fig.width=10, eval = TRUE, include = TRUE, message = FALSE, echo = TRUE, results = 'hold'}
+tar_visnetwork(targets_only = TRUE, reporter = "silent")
+```
+
+
+### With Functions
+
+```{r, vis1, fig.height=18, fig.width=12, eval = TRUE, include = TRUE, message = FALSE, echo = TRUE, results = 'hold', collapse=TRUE}
+tar_visnetwork(reporter = "silent")
 ```
 

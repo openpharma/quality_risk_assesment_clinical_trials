@@ -1,17 +1,10 @@
 ---
 title: "Inspect Modelling Performance"
-output: 
-  html_document:
-    toc: true
-    number_sections: true
-    toc_float:
-      collapsed: false
-      smooth_scroll: false
-    toc_depth: 3
 editor_options: 
   chunk_output_type: console
 ---
 
+# Inspect Modelling Performance
 
 ```{r}
 suppressPackageStartupMessages(library(tidyverse))
@@ -23,14 +16,14 @@ library(DT)
 knitr::opts_knit$set(root.dir = "../../")
 ```
 
-# Perfermance Metrics
+## Perfermance Metrics
 
 ```{r, perf_metric}
 df_perf <- tar_read(df_perf)
 ```
 
 
-## AUC
+### AUC
 
 ```{r, auc}
 df_perf %>%
@@ -38,7 +31,7 @@ df_perf %>%
   knitr::kable(digits = 2)
 ```
 
-## Brier
+### Brier
 
 ```{r brier}
 df_perf %>%
@@ -47,9 +40,9 @@ df_perf %>%
 ```
 
 
-# Calibration
+## Calibration
 
-## Linear Calibration
+### Linear Calibration
 
 ```{r}
 tar_read(df_calib) %>%
@@ -57,9 +50,9 @@ tar_read(df_calib) %>%
   knitr::kable(digits = 3)
 ```
 
-## Plot
+### Plot
 
-```{r}
+```{r fig.width=10, fig.height = 3}
 tar_read(p_calib)
 ```
 

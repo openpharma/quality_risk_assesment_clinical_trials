@@ -1,16 +1,10 @@
 ---
 title: "Forest Plots"
-output: 
-  html_document:
-    toc: true
-    number_sections: true
-    toc_float:
-      collapsed: false
-      smooth_scroll: false
-    toc_depth: 3
 editor_options: 
   chunk_output_type: console
 ---
+
+# Forest Plots
 
 ```{r, eval = TRUE}
 knitr::opts_knit$set(root.dir = "../../")
@@ -24,8 +18,6 @@ library(targets)
 source("src/R/forest_plots.R")
 ```
 
-
-# Forest Plots
 
 ```{r df_fores}
 df_forest <- tar_read(df_forest)

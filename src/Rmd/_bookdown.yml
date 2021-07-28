@@ -1,0 +1,6 @@
+# https://bookdown.org/yihui/bookdown/configuration.html
+output_format: bookdown::gitbook()
+name: "Quality Risk Assesment Clinical Trials"
+output_dir: "../../docs/"
+delete_merged_file: true
+new_session: yes

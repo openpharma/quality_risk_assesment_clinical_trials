@@ -1,11 +1,11 @@
 ---
 title: ""
-output: html_document
+output: 
+  html_document:
+    toc: false
 ---
 
-```{r setup, include = FALSE}
-knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
-```
+# Introduction
 
 
 ```{r child="../../README.md"}
