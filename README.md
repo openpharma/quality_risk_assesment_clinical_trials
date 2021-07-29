@@ -1,4 +1,5 @@
 
+# Quality Risk Assesment Clinical Trials
 
 - [Anonymization](#anonymization)
 - [Documentation and Code Output](#documentation-and-code-output)
@@ -78,8 +79,3 @@ enter in terminal
 docker compose down
 ```
 
-## Bookdown
-alternative to rmarkdown::render_site("src/Rmd")
-```
-bookdown::render_book("src/Rmd", output_format = bookdown::gitbook())
-```

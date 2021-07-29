@@ -244,11 +244,11 @@ $(document).ready(function () {
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="00_workflow.html">Workflow</a>
+  <a href="00_workflow.html">{targets} Workflow</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Inspect Workflow
+    Reports
      
     <span class="caret"></span>
   </a>
@@ -291,6 +291,9 @@ $(document).ready(function () {
 
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
+</div>
+<div id="quality-risk-assesment-clinical-trials" class="section level1">
+<h1>Quality Risk Assesment Clinical Trials</h1>
 <ul>
 <li><a href="#anonymization">Anonymization</a></li>
 <li><a href="#documentation-and-code-output">Documentation and Code Output</a></li>
@@ -363,11 +366,6 @@ docker compose up -d rstudio</code></pre>
 <pre><code>docker compose down</code></pre>
 </div>
 </div>
-</div>
-<div id="bookdown" class="section level2">
-<h2>Bookdown</h2>
-<p>alternative to rmarkdown::render_site(“src/Rmd”)</p>
-<pre><code>bookdown::render_book(&quot;src/Rmd&quot;, output_format = bookdown::gitbook())</code></pre>
 </div>
 </div>
 

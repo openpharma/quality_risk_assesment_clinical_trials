@@ -9,14 +9,14 @@ output:
     # toc_float:
     #   collapsed: false
     #   smooth_scroll: false
-    toc_depth: 3
+    toc_depth: 4
 navbar:
   title: "Quality Risk Assesment Clinical Trials"
   type: inverse
   left:
-    - text: "Workflow"
+    - text: "{targets} Workflow"
       href: 00_workflow.html
-    - text: "Inspect Workflow"
+    - text: "Reports"
       menu:
       - text: "Data"
         href: 01_data.html

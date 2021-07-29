@@ -3,28 +3,29 @@ title: "Workflow"
 output: 
   html_document:
     toc: true
-    number_sections: false
+    number_sections: true
     toc_float:
       collapsed: false
       smooth_scroll: false
-    toc_depth: 3
+    toc_depth: 4
 editor_options: 
   chunk_output_type: console
 ---
 
 
-```{r}
+```{r, wflow_load}
 suppressPackageStartupMessages(library(tidyverse))
 library(targets)
+library(tarchetypes)
 library(visNetwork)
 ```
 
-```{r, eval = TRUE}
+```{r, wflow_opt, eval = TRUE}
 knitr::opts_knit$set(root.dir = "../../", tar_interactive = FALSE, collapse = TRUE, comment = "#>")
 tar_unscript()
 ```
 
-# Workflow
+# {targets} Workflow
 
 ## Globals
 
@@ -38,7 +39,8 @@ tar_option_set(
     "cowplot",
     "glue",
     "tidyverse",
-    "arrow"
+    "arrow",
+    "tarchetypes"
     )
   )
 purrr::map(dir("./src/R", full.names = TRUE), source)
@@ -109,6 +111,21 @@ list(
 )
 ```
 
+#### Report
+
+[link](01_data.html)
+
+```{targets, report_data}
+tarchetypes::tar_render(
+  report_data,
+  "src/Rmd/_01_data.Rmd",
+  output_file = "01_data.html",
+  output_dir = "src/Rmd/",
+  output_yaml = "src/Rmd/_site.yml"
+)
+```
+
+
 ### Time Series Cross Validation
 
 ```{targets, cv}
@@ -117,6 +134,21 @@ list(
   tar_target(df_cv_preds_and_coefs, qract_pred_cv(df_mm_bin, df_cv, df_form, config$id_vars))
 )
 ```
+
+#### Report
+
+[link](02_cv.html)
+
+```{targets, report_cv}
+tarchetypes::tar_render(
+  report_cv,
+  "src/Rmd/_02_cv.Rmd",
+  output_file = "02_cv.html",
+  output_dir = "src/Rmd/",
+  output_yaml = "src/Rmd/_site.yml"
+)
+```
+
 
 ### Performance
 
@@ -139,6 +171,21 @@ list(
 )
 ```
 
+#### Report
+
+[link](03_perf.html)
+
+```{targets, report_perf}
+tarchetypes::tar_render(
+  report_perf,
+  "src/Rmd/_03_perf.Rmd",
+  output_file = "03_perf.html",
+  output_dir = "src/Rmd/",
+  output_yaml = "src/Rmd/_site.yml"
+)
+```
+
+
 ### Forest Plots
 
 ```{targets, forest}
@@ -158,6 +205,21 @@ tar_target(
   )
 )
 ```
+
+#### Report
+
+[link]("./04_forest.html")
+
+```{targets, report_forest}
+tarchetypes::tar_render(
+  report_forest,
+  "src/Rmd/_04_forest.Rmd",
+  output_file = "04_forest.html",
+  output_dir = "src/Rmd/",
+  output_yaml = "src/Rmd/_site.yml"
+)
+```
+
 
 ## Run Workflow
 

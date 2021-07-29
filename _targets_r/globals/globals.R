@@ -7,7 +7,8 @@ tar_option_set(
     "cowplot",
     "glue",
     "tidyverse",
-    "arrow"
+    "arrow",
+    "tarchetypes"
     )
   )
 purrr::map(dir("./src/R", full.names = TRUE), source)
