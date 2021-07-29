@@ -1,0 +1,245 @@
+---
+title: "Workflow"
+output: 
+  html_document:
+    toc: true
+    number_sections: true
+    toc_float:
+      collapsed: false
+      smooth_scroll: false
+    toc_depth: 4
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r, wflow_load}
+suppressPackageStartupMessages(library(tidyverse))
+library(targets)
+library(tarchetypes)
+library(visNetwork)
+```
+
+```{r, wflow_opt, eval = TRUE}
+knitr::opts_knit$set(root.dir = "../../", tar_interactive = FALSE, collapse = TRUE, comment = "#>")
+tar_unscript()
+```
+
+# {targets} Workflow
+
+## Globals
+
+```{targets globals, tar_globals = TRUE}
+options(tidyverse.quiet = TRUE)
+tar_option_set(
+  packages = c(
+    "gt",
+    "yardstick",
+    "broom",
+    "cowplot",
+    "glue",
+    "tidyverse",
+    "arrow",
+    "tarchetypes"
+    )
+  )
+purrr::map(dir("./src/R", full.names = TRUE), source)
+```
+
+## Targets
+
+### Config
+
+```{targets config}
+tar_target(
+  config,
+  list(
+    # columns that are not features
+    id_vars = c(
+      'category_id',
+      'modelling_category',
+      'classification',
+      'activity_id_new',
+      'start_date',
+      'index',
+      'date_first_study_activity',
+      'date_last_study_activity',
+      'protocol',
+      'file_name',
+      'source_row_index',
+      'audit_or_inspection',
+      'site_platinum_id',
+      'pi_platinum_id',
+      'site_num',
+      'country',
+      'site_activation_date',
+      'site_closed_date',
+      'site_closed_date_corr',
+      'study_start_date',
+      'study_end_date'
+     ),
+     max_year = 2020
+   )
+)
+```
+
+
+### Data
+
+#### Files
+```{targets, files}
+list(
+  tar_target(file_mm, "data/in/modelling_matrix.feather", format = "file"),
+  tar_target(file_mm_bin, "data/in/lasso_prep.feather", format = "file"),
+  tar_target(file_form, "data/in/glm_coefs.feather", format = "file"),
+  tar_target(file_cv, "data/in/indeces_annual_splits.feather", format = "file"),
+  tar_target(file_cat_lookup, "data/in/category_lookup.feather", format = "file"),
+  tar_target(file_feat_lookup, "data/in/feature_lookup.csv", format = "file")
+)
+```
+
+#### Load
+
+```{targets, load}
+list(
+  tar_target(df_mm, qract_read_and_anonymize(file_mm, config$id_vars, arrow::read_feather)),
+  tar_target(df_mm_bin, qract_read_and_anonymize(file_mm_bin, config$id_vars, arrow::read_feather)),
+  tar_target(df_form, qract_read_and_anonymize(file_form,  config$id_vars, arrow::read_feather)),
+  tar_target(df_cv, qract_read_and_anonymize(file_cv,  config$id_vars, arrow::read_feather)),
+  tar_target(df_cat_lookup, qract_read_and_anonymize(file_cat_lookup, config$id_vars, arrow::read_feather)),
+  tar_target(df_feat_lookup, qract_read_and_anonymize(file_feat_lookup, config$id_vars, readr::read_csv))
+)
+```
+
+#### Report
+
+[link](01_data.html)
+
+```{targets, report_data}
+tarchetypes::tar_render(
+  report_data,
+  "src/Rmd/_01_data.Rmd",
+  output_file = "01_data.html",
+  output_dir = "src/Rmd/",
+  output_yaml = "src/Rmd/_site.yml"
+)
+```
+
+
+### Time Series Cross Validation
+
+```{targets, cv}
+list(
+  tar_target(p_tscv, qract_plot_tscv(df_mm, df_cv, config$max_year)),
+  tar_target(df_cv_preds_and_coefs, qract_pred_cv(df_mm_bin, df_cv, df_form, config$id_vars))
+)
+```
+
+#### Report
+
+[link](02_cv.html)
+
+```{targets, report_cv}
+tarchetypes::tar_render(
+  report_cv,
+  "src/Rmd/_02_cv.Rmd",
+  output_file = "02_cv.html",
+  output_dir = "src/Rmd/",
+  output_yaml = "src/Rmd/_site.yml"
+)
+```
+
+
+### Performance
+
+```{targets, perf}
+list(
+  tar_target(df_perf, qract_perf(df_cv_preds_and_coefs, config$max_year)),
+  tar_target(df_calib, qract_lin_calib(df_cv_preds_and_coefs)),
+  tar_target(df_bin, qract_bin_preds(df_cv_preds_and_coefs, n_bins = 4, confidence_level = .75)),
+  tar_target(
+    p_calib,
+    qract_plot_calibration_pub(
+      category_id_str = df_cv_preds_and_coefs$category_id %>% unique(),
+      df_bin,
+      df_calib,
+      df_cat_lookup,
+      uniform_color = "black",
+      color_calib = "grey"
+      )
+  )
+)
+```
+
+#### Report
+
+[link](03_perf.html)
+
+```{targets, report_perf}
+tarchetypes::tar_render(
+  report_perf,
+  "src/Rmd/_03_perf.Rmd",
+  output_file = "03_perf.html",
+  output_dir = "src/Rmd/",
+  output_yaml = "src/Rmd/_site.yml"
+)
+```
+
+
+### Forest Plots
+
+```{targets, forest}
+tar_target(
+  df_forest,
+  qract_forest_plots(
+    df_cv_preds_and_coefs,
+    df_feat_lookup,
+    df_mm,
+    df_cat_lookup,
+    category_ids = c(
+      "cnsn",
+      "dtin",
+      "sfty",
+      "ptpe"
+    )
+  )
+)
+```
+
+#### Report
+
+[link]("./04_forest.html")
+
+```{targets, report_forest}
+tarchetypes::tar_render(
+  report_forest,
+  "src/Rmd/_04_forest.Rmd",
+  output_file = "04_forest.html",
+  output_dir = "src/Rmd/",
+  output_yaml = "src/Rmd/_site.yml"
+)
+```
+
+
+## Run Workflow
+
+```{r, make, message=FALSE, echo = TRUE, results = 'hold', collapse=TRUE}
+tar_make()
+```
+
+
+## Visualise Workflow
+
+### Without Functions
+
+```{r, vis2, fig.height=7, fig.width=10, eval = TRUE, include = TRUE, message = FALSE, echo = TRUE, results = 'hold'}
+tar_visnetwork(targets_only = TRUE, reporter = "silent")
+```
+
+
+### With Functions
+
+```{r, vis1, fig.height=18, fig.width=12, eval = TRUE, include = TRUE, message = FALSE, echo = TRUE, results = 'hold', collapse=TRUE}
+tar_visnetwork(reporter = "silent")
+```
+

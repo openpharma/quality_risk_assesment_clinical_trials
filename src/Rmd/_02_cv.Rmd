@@ -1,0 +1,53 @@
+---
+title: "Inspect Time Series Cross Validation"
+editor_options: 
+  chunk_output_type: console
+---
+
+# Inspect Time Series Cross Validation
+
+```{r}
+suppressPackageStartupMessages(library(tidyverse))
+library(targets)
+library(DT)
+```
+
+```{r, eval = TRUE}
+knitr::opts_knit$set(root.dir = "../../")
+```
+
+## Strategy
+
+```{r p_tscv, fig.width = 10}
+tar_read(p_tscv)
+```
+
+## Predictions
+
+```{r}
+df_cv_preds_and_coefs <- tar_read(df_cv_preds_and_coefs)
+
+df_cv_preds_and_coefs
+
+pred <- df_cv_preds_and_coefs$pred[[1]]
+
+df_cv_preds_and_coefs %>%
+  select(year_start_act, category_id, pred) %>%
+  mutate(pred_valid = map(pred, "pred_valid")) %>%
+  select(- pred) %>%
+  unnest(pred_valid) %>%
+  unnest(pred_valid)
+```
+
+## Coefficients
+
+```{r}
+df_cv_preds_and_coefs %>%
+  select(year_start_act, category_id, pred) %>%
+  mutate(coefs = map(pred, "coefs")) %>%
+  select(- pred) %>%
+  unnest(coefs) %>%
+  unnest(coefs) %>%
+  DT::datatable()
+```
+

@@ -1,0 +1,32 @@
+# https://bookdown.org/yihui/rmarkdown/rmarkdown-site.html
+
+name: "Quality Risk Assesment Clinical Trials"
+output_dir: "../../docs"
+output: 
+  html_document:
+    toc: true
+    number_sections: false
+    # toc_float:
+    #   collapsed: false
+    #   smooth_scroll: false
+    toc_depth: 4
+navbar:
+  title: "Quality Risk Assesment Clinical Trials"
+  type: inverse
+  left:
+    - text: "{targets} Workflow"
+      href: 00_workflow.html
+    - text: "Reports"
+      menu:
+      - text: "Data"
+        href: 01_data.html
+      - text: "Time Series Cross Validation"
+        href: 02_cv.html
+      - text: "Performance"
+        href: 03_perf.html
+      - text: "Forest Plots"
+        href: 04_forest.html
+  right:
+    - icon: fa-github
+      text: "Github"
+      href: https://github.com/openpharma/quality_risk_assesment_clinical_trials

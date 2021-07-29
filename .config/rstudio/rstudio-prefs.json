@@ -1,0 +1,8 @@
+{
+    "save_workspace": "never",
+    "always_save_history": false,
+    "reuse_sessions_for_project_links": true,
+    "initial_working_directory": "~",
+    "rainbow_parentheses": true,
+    "posix_terminal_shell": "bash"
+}
