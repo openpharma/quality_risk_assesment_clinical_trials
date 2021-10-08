@@ -12,5 +12,7 @@ RUN R -e "remotes::install_version('visNetwork', repos='http://cran.us.r-project
 RUN R -e "remotes::install_version('styler', repos='http://cran.us.r-project.org', version = '1.5.1' , upgrade = 'never')"
 RUN R -e "remotes::install_version('tarchetypes', repos='http://cran.us.r-project.org', version = '0.2.1' , upgrade = 'never')"
 RUN R -e "remotes::install_version('car', repos='http://cran.us.r-project.org', version = '3.0-11' , upgrade = 'never')"
+RUN R -e "webshot::install_phantomjs()"
+
 
 ENV XDG_CONFIG_HOME=/home/rstudio/app/.config/

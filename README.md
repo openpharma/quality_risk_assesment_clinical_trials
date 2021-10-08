@@ -1,16 +1,18 @@
 
 # Quality Risk Assesment Clinical Trials
 
-- [Anonymization](#anonymization)
-- [Documentation and Code Output](#documentation-and-code-output)
-- [Run Code](#run-code)
-  - [Docker](#docker)
-  - [Targets](#targets)
-  - [Run all code and render website](#run-all-code-and-render-website)
-    - [Shell](#shell)
-    - [Rstudio](#rstudio)
-
-# Publication
+- [Quality Risk Assesment Clinical Trials](#quality-risk-assesment-clinical-trials)
+  - [Publication](#publication)
+  - [Anonymization](#anonymization)
+  - [Documentation and Code Output](#documentation-and-code-output)
+  - [Run Code](#run-code)
+    - [Docker](#docker)
+    - [Targets](#targets)
+    - [Run all code and render website](#run-all-code-and-render-website)
+      - [Shell](#shell)
+      - [Rstudio](#rstudio)
+  
+## Publication
 
 This repository contains part of the analysis code used for:
 
