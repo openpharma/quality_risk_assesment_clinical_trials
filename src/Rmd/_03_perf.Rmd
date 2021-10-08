@@ -16,12 +16,32 @@ library(DT)
 knitr::opts_knit$set(root.dir = "../../")
 ```
 
+## VIF
+
+```{r}
+df_cv_preds_and_coefs <- tar_read(df_cv_preds_and_coefs)
+
+df_coefs <- df_cv_preds_and_coefs %>%
+  select(year_start_act, category_id, pred) %>%
+  mutate(coefs = map(pred, "coefs")) %>%
+  select(- pred) %>%
+  unnest(coefs) %>%
+  unnest(coefs)
+
+df_coefs %>%
+  filter(year_start_act == 2019) %>%
+  group_by(category_id) %>%
+  summarise(max_vif = max(vif, na.rm = TRUE)) %>%
+  knitr::kable()
+
+```
+
+
 ## Perfermance Metrics
 
 ```{r, perf_metric}
 df_perf <- tar_read(df_perf)
 ```
-
 
 ### AUC
 

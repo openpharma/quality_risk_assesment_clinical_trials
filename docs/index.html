@@ -13,7 +13,7 @@
 
 <title>index.knit</title>
 
-<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
@@ -343,6 +343,7 @@ $(document).ready(function () {
 <h3>Targets</h3>
 <p><a href="https://github.com/ropensci/targets"><code>targets</code></a> is used as the execution manager. The workflow is specified in <code>_targets.R</code> and the <code>_targets_r/</code> directory.</p>
 <p>In order to implement changes to the workflow edit <code>src/Rmd/00_workflow.Rmd</code> and knit document from RStudio to refresh <code>targets</code> files.</p>
+<p>Make changes to existing functions by adding <code>browser()</code> statements and executing <code>tar_make(callr_function = NULL)</code></p>
 </div>
 <div id="run-all-code-and-render-website" class="section level3">
 <h3>Run all code and render website</h3>

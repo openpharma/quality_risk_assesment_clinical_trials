@@ -49,6 +49,8 @@ The workflow is specified in `_targets.R` and the `_targets_r/` directory.
 
 In order to implement changes to the workflow edit `src/Rmd/00_workflow.Rmd` and knit document from RStudio to refresh `targets` files.
 
+Make changes to existing functions by adding `browser()` statements and executing `tar_make(callr_function = NULL)`
+
 ### Run all code and render website
 
 #### Shell
