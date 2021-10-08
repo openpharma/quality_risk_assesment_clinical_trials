@@ -24,12 +24,16 @@ tar_read(p_tscv)
 
 ## Predictions
 
+Test set predictions (blue bars) of each iteration.
+
 ```{r}
 df_cv_preds_and_coefs <- tar_read(df_cv_preds_and_coefs)
 
 df_cv_preds_and_coefs
 
 pred <- df_cv_preds_and_coefs$pred[[1]]
+
+pred
 
 df_cv_preds_and_coefs %>%
   select(year_start_act, category_id, pred) %>%
@@ -40,6 +44,8 @@ df_cv_preds_and_coefs %>%
 ```
 
 ## Coefficients
+
+Coefficients and coefficient statistics of each iteration.
 
 ```{r}
 df_cv_preds_and_coefs %>%

@@ -18,6 +18,8 @@ knitr::opts_knit$set(root.dir = "../../")
 
 ## VIF
 
+Maximum VIF for final model.
+
 ```{r}
 df_cv_preds_and_coefs <- tar_read(df_cv_preds_and_coefs)
 
@@ -43,6 +45,8 @@ df_coefs %>%
 df_perf <- tar_read(df_perf)
 ```
 
+AUC and Brier were calculated for each test set and then the mean and standard error was calculated.
+
 ### AUC
 
 ```{r, auc}
@@ -62,11 +66,17 @@ df_perf %>%
 
 ## Calibration
 
+- pools all predictions for all test sets
+- predicted test set probabilities have been split over 4 bins with a minimum of 100 observations per bin.
+- actual observed frequencies were calculated for each bin and `prop.test()` was used for calculating confidence intervals.
+
 ### Linear Calibration
 
 ```{r}
 tar_read(df_calib) %>%
   select(- plot_data) %>%
+  mutate(delta = upper - lower) %>%
+  select(category_id, lower, base_rate, upper, delta, intercept, slope) %>%
   knitr::kable(digits = 3)
 ```
 

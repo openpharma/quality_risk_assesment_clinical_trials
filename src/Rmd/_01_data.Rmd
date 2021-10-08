@@ -20,12 +20,22 @@ knitr::opts_knit$set(root.dir = "../../")
 
 ## Modelling Matrix
 
+- `category_id` contains the ID of the clinical impact factor.
+- `activity_id_new` contains the ID of the audit/inspection
+- `has_finding` specifies whether there was a finding of the specific impact factor at the specific audit/inspection
+
 ### Original
 ```{r}
 df_mm <- tar_read(df_mm)
 
 df_mm %>%
   select(category_id, activity_id_new, has_finding, everything())
+
+df_mm %>%
+  filter(lubridate::year(start_date) <= 2019) %>%
+  group_by(category_id) %>%
+  summarise(n_activities = n_distinct(activity_id_new)) %>%
+  knitr::kable()
 
 tibble(columns = colnames(df_mm)) %>%
   DT::datatable()
@@ -45,7 +55,7 @@ tibble(columns = colnames(df_mm_bin)) %>%
 
 ## Coefficients
 
-Modelling coefficients have been preselected.
+Modelling coefficients have been preselected by a combination of EDA and SME input.
 
 ```{r}
 tar_read(df_form) %>%
@@ -54,7 +64,7 @@ tar_read(df_form) %>%
 
 ## Cross Validation Indeces
 
-Indeces of modelling matrix that defines time series cross validation strategy.
+Indeces of modelling matrix that define time series cross validation strategy.
 
 ```{r}
 tar_read(df_cv)

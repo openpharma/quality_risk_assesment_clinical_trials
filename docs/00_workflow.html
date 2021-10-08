@@ -501,7 +501,7 @@ purrr::map(dir(&quot;./src/R&quot;, full.names = TRUE), source)</code></pre>
 <h3 number="1.2.4"><span class="header-section-number">1.2.4</span> Performance</h3>
 <pre class="r"><code>list(
   tar_target(df_perf, qract_perf(df_cv_preds_and_coefs, config$max_year)),
-  tar_target(df_calib, qract_lin_calib(df_cv_preds_and_coefs)),
+  tar_target(df_calib, qract_lin_calib(df_cv_preds_and_coefs, min_sample_size = 200)),
   tar_target(df_bin, qract_bin_preds(df_cv_preds_and_coefs, n_bins = 4, confidence_level = .75)),
   tar_target(
     p_calib,
@@ -572,13 +572,11 @@ purrr::map(dir(&quot;./src/R&quot;, full.names = TRUE), source)</code></pre>
 |
 
 /
-
--
 [34m•[39m end pipeline
 ## 
-\
+-
 
-|
+\
 
  </code></pre>
 </div>
@@ -598,9 +596,11 @@ purrr::map(dir(&quot;./src/R&quot;, full.names = TRUE), source)</code></pre>
 
 -
 
+\
+
  </code></pre>
-<div id="htmlwidget-59f5d5d9eb42e4f45f51" style="width:960px;height:672px;" class="visNetwork html-widget"></div>
-<script type="application/json" data-for="htmlwidget-59f5d5d9eb42e4f45f51">{"x":{"nodes":{"name":[],"type":[],"status":[],"seconds":[],"bytes":[],"branches":[],"id":[],"label":[],"color":[],"shape":[]},"edges":{"from":[],"to":[],"arrows":[]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":false},"manipulation":{"enabled":false},"edges":{"smooth":{"type":"cubicBezier","forceDirection":"horizontal"}},"physics":{"stabilization":false},"layout":{"hierarchical":{"enabled":true,"direction":"LR"}}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":true,"hoverNearest":false,"degree":{"from":1,"to":1},"algorithm":"hierarchical","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":true,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"legend":{"width":0.2,"useGroups":false,"position":"right","ncol":1,"stepX":100,"stepY":100,"zoom":true,"nodes":{"label":[],"color":[],"shape":[]},"nodesToDataframe":true}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-b0b8ef1f14480dd03b82" style="width:960px;height:672px;" class="visNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-b0b8ef1f14480dd03b82">{"x":{"nodes":{"name":[],"type":[],"status":[],"seconds":[],"bytes":[],"branches":[],"id":[],"label":[],"color":[],"shape":[]},"edges":{"from":[],"to":[],"arrows":[]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":false},"manipulation":{"enabled":false},"edges":{"smooth":{"type":"cubicBezier","forceDirection":"horizontal"}},"physics":{"stabilization":false},"layout":{"hierarchical":{"enabled":true,"direction":"LR"}}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":true,"hoverNearest":false,"degree":{"from":1,"to":1},"algorithm":"hierarchical","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":true,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"legend":{"width":0.2,"useGroups":false,"position":"right","ncol":1,"stepX":100,"stepY":100,"zoom":true,"nodes":{"label":[],"color":[],"shape":[]},"nodesToDataframe":true}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="with-functions" class="section level3" number="1.4.2">
 <h3 number="1.4.2"><span class="header-section-number">1.4.2</span> With Functions</h3>
@@ -619,8 +619,8 @@ purrr::map(dir(&quot;./src/R&quot;, full.names = TRUE), source)</code></pre>
 \
 
  </code></pre>
-<div id="htmlwidget-91f19d0051da4ecd03ea" style="width:1152px;height:1728px;" class="visNetwork html-widget"></div>
-<script type="application/json" data-for="htmlwidget-91f19d0051da4ecd03ea">{"x":{"nodes":{"name":[],"type":[],"status":[],"seconds":[],"bytes":[],"branches":[],"id":[],"label":[],"color":[],"shape":[]},"edges":{"from":[],"to":[],"arrows":[]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":false},"manipulation":{"enabled":false},"edges":{"smooth":{"type":"cubicBezier","forceDirection":"horizontal"}},"physics":{"stabilization":false},"layout":{"hierarchical":{"enabled":true,"direction":"LR"}}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":true,"hoverNearest":false,"degree":{"from":1,"to":1},"algorithm":"hierarchical","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":true,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"legend":{"width":0.2,"useGroups":false,"position":"right","ncol":1,"stepX":100,"stepY":100,"zoom":true,"nodes":{"label":[],"color":[],"shape":[]},"nodesToDataframe":true}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-e917b8ea0f1db76fc8ef" style="width:1152px;height:1728px;" class="visNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e917b8ea0f1db76fc8ef">{"x":{"nodes":{"name":[],"type":[],"status":[],"seconds":[],"bytes":[],"branches":[],"id":[],"label":[],"color":[],"shape":[]},"edges":{"from":[],"to":[],"arrows":[]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":false},"manipulation":{"enabled":false},"edges":{"smooth":{"type":"cubicBezier","forceDirection":"horizontal"}},"physics":{"stabilization":false},"layout":{"hierarchical":{"enabled":true,"direction":"LR"}}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":true,"hoverNearest":false,"degree":{"from":1,"to":1},"algorithm":"hierarchical","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":true,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"legend":{"width":0.2,"useGroups":false,"position":"right","ncol":1,"stepX":100,"stepY":100,"zoom":true,"nodes":{"label":[],"color":[],"shape":[]},"nodesToDataframe":true}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </div>

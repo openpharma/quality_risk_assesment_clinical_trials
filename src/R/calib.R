@@ -18,6 +18,8 @@ qract_is_better <- function(x, y, type = "upper") {
 #' @param df dataframe with columns pred_yes (proabilities between 0 and 1) and
 #'   obs (binary events, 0 or 1)
 #' @param type c("upper", "lower"), Default: 'upper'
+#' @param stats logical, test boundary for statistical significance vs baserate,
+#'   if not significant increase bin size
 #' @param pval significance threshold, Default: 0.05
 #' @param min_sample_size Default: 10
 #' @param max_sample_size Default: 1000
@@ -27,6 +29,7 @@ qract_is_better <- function(x, y, type = "upper") {
 #' @importFrom broom tidy
 qract_get_pred_boundary <- function(df,
                                     type = "upper",
+                                    stats = FALSE,
                                     pval = 0.05,
                                     min_sample_size = 50,
                                     max_sample_size = 1000) {
@@ -36,8 +39,6 @@ qract_get_pred_boundary <- function(df,
   stopifnot(all(between(df$pred_yes, 0, 1), na.rm = TRUE))
   stopifnot(all(df$obs %in% c(0, 1), na.rm = TRUE))
 
-  base_prob <- mean(df$obs, na.rm = TRUE)
-
   if (type == "upper") {
     df <- arrange(df, desc(pred_yes))
     alt_prop_test <- "greater"
@@ -45,26 +46,34 @@ qract_get_pred_boundary <- function(df,
     df <- arrange(df, pred_yes)
     alt_prop_test <- "less"
   }
-
-  best_prop <- base_prob
-
-  for (i in seq(min_sample_size, max_sample_size, 1)) {
-    suppressWarnings({
-      prop_test <- prop.test(
-        x = sum(df$obs[1:i], na.rm = TRUE),
-        n = length(df$obs[1:i]),
-        p = base_prob, alt_prop_test
-      )
-    })
-
-    prop_test <- broom::tidy(prop_test)
-
-    if (
-      prop_test$p.value <= pval &
-        qract_is_better(prop_test$estimate, best_prop, type)
-    ) {
-      best_prop <- prop_test$estimate
-    }
+  
+  if (stats) {
+      best_prop <- base_prob
+      base_prob <- mean(df$obs, na.rm = TRUE)
+      
+      for (i in seq(min_sample_size, max_sample_size, 1)) {
+        suppressWarnings({
+          prop_test <- prop.test(
+            x = sum(df$obs[1:i], na.rm = TRUE),
+            n = length(df$obs[1:i]),
+            p = base_prob, alt_prop_test
+          )
+        })
+    
+        prop_test <- broom::tidy(prop_test)
+    
+        if (
+          prop_test$p.value <= pval &
+            qract_is_better(prop_test$estimate, best_prop, type)
+        ) {
+          best_prop <- prop_test$estimate
+        }
+      }
+  } else {
+    best_prop <- df %>%
+      head(min_sample_size) %>%
+      pull(pred_yes) %>%
+      mean(na.rm = TRUE)
   }
 
   return(best_prop)

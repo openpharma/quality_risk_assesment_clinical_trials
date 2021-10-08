@@ -155,7 +155,7 @@ tarchetypes::tar_render(
 ```{targets, perf}
 list(
   tar_target(df_perf, qract_perf(df_cv_preds_and_coefs, config$max_year)),
-  tar_target(df_calib, qract_lin_calib(df_cv_preds_and_coefs)),
+  tar_target(df_calib, qract_lin_calib(df_cv_preds_and_coefs, min_sample_size = 200)),
   tar_target(df_bin, qract_bin_preds(df_cv_preds_and_coefs, n_bins = 4, confidence_level = .75)),
   tar_target(
     p_calib,
