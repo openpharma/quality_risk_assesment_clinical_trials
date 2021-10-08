@@ -486,3 +486,15 @@ qract_forest_plots <- function(df_cv_preds_and_coefs,
       )
     )
 }
+
+
+qract_save_forest_plots <- function(df_forest, path = "docs/png") {
+  df_forest <- df_forest %>%
+    mutate(file = paste0(path, "/", category_id, "_forest.png"))
+    
+  suppressWarnings(
+    walk2(df_forest$tab, df_forest$file, gt::gtsave, vwidth = 5000)
+  )
+    
+    return(df_forest$file)
+}

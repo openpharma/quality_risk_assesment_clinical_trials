@@ -13,7 +13,7 @@
 
 <title>Workflow</title>
 
-<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
@@ -382,10 +382,10 @@ library(tarchetypes)
 library(visNetwork)</code></pre>
 <pre class="r"><code>knitr::opts_knit$set(root.dir = &quot;../../&quot;, tar_interactive = FALSE, collapse = TRUE, comment = &quot;#&gt;&quot;)
 tar_unscript()</code></pre>
-<div id="targets-workflow" class="section level1">
-<h1>{targets} Workflow</h1>
-<div id="globals" class="section level2">
-<h2>Globals</h2>
+<div id="targets-workflow" class="section level1" number="1">
+<h1 number="1"><span class="header-section-number">1</span> {targets} Workflow</h1>
+<div id="globals" class="section level2" number="1.1">
+<h2 number="1.1"><span class="header-section-number">1.1</span> Globals</h2>
 <pre class="r"><code>options(tidyverse.quiet = TRUE)
 tar_option_set(
   packages = c(
@@ -402,10 +402,10 @@ tar_option_set(
 purrr::map(dir(&quot;./src/R&quot;, full.names = TRUE), source)</code></pre>
 <pre><code>## Established _targets.R and _targets_r/globals/globals.R.</code></pre>
 </div>
-<div id="targets" class="section level2">
-<h2>Targets</h2>
-<div id="config" class="section level3">
-<h3>Config</h3>
+<div id="targets" class="section level2" number="1.2">
+<h2 number="1.2"><span class="header-section-number">1.2</span> Targets</h2>
+<div id="config" class="section level3" number="1.2.1">
+<h3 number="1.2.1"><span class="header-section-number">1.2.1</span> Config</h3>
 <pre class="r"><code>tar_target(
   config,
   list(
@@ -438,10 +438,10 @@ purrr::map(dir(&quot;./src/R&quot;, full.names = TRUE), source)</code></pre>
 )</code></pre>
 <pre><code>## Established _targets.R and _targets_r/targets/config.R.</code></pre>
 </div>
-<div id="data" class="section level3">
-<h3>Data</h3>
-<div id="files" class="section level4">
-<h4>Files</h4>
+<div id="data" class="section level3" number="1.2.2">
+<h3 number="1.2.2"><span class="header-section-number">1.2.2</span> Data</h3>
+<div id="files" class="section level4" number="1.2.2.1">
+<h4 number="1.2.2.1"><span class="header-section-number">1.2.2.1</span> Files</h4>
 <pre class="r"><code>list(
   tar_target(file_mm, &quot;data/in/modelling_matrix.feather&quot;, format = &quot;file&quot;),
   tar_target(file_mm_bin, &quot;data/in/lasso_prep.feather&quot;, format = &quot;file&quot;),
@@ -452,8 +452,8 @@ purrr::map(dir(&quot;./src/R&quot;, full.names = TRUE), source)</code></pre>
 )</code></pre>
 <pre><code>## Established _targets.R and _targets_r/targets/files.R.</code></pre>
 </div>
-<div id="load" class="section level4">
-<h4>Load</h4>
+<div id="load" class="section level4" number="1.2.2.2">
+<h4 number="1.2.2.2"><span class="header-section-number">1.2.2.2</span> Load</h4>
 <pre class="r"><code>list(
   tar_target(df_mm, qract_read_and_anonymize(file_mm, config$id_vars, arrow::read_feather)),
   tar_target(df_mm_bin, qract_read_and_anonymize(file_mm_bin, config$id_vars, arrow::read_feather)),
@@ -464,8 +464,8 @@ purrr::map(dir(&quot;./src/R&quot;, full.names = TRUE), source)</code></pre>
 )</code></pre>
 <pre><code>## Established _targets.R and _targets_r/targets/load.R.</code></pre>
 </div>
-<div id="data-report" class="section level4">
-<h4>Data Report</h4>
+<div id="report" class="section level4" number="1.2.2.3">
+<h4 number="1.2.2.3"><span class="header-section-number">1.2.2.3</span> Report</h4>
 <p><a href="01_data.html">link</a></p>
 <pre class="r"><code>tarchetypes::tar_render(
   report_data,
@@ -477,15 +477,15 @@ purrr::map(dir(&quot;./src/R&quot;, full.names = TRUE), source)</code></pre>
 <pre><code>## Established _targets.R and _targets_r/targets/report_data.R.</code></pre>
 </div>
 </div>
-<div id="time-series-cross-validation" class="section level3">
-<h3>Time Series Cross Validation</h3>
+<div id="time-series-cross-validation" class="section level3" number="1.2.3">
+<h3 number="1.2.3"><span class="header-section-number">1.2.3</span> Time Series Cross Validation</h3>
 <pre class="r"><code>list(
   tar_target(p_tscv, qract_plot_tscv(df_mm, df_cv, config$max_year)),
   tar_target(df_cv_preds_and_coefs, qract_pred_cv(df_mm_bin, df_cv, df_form, config$id_vars))
 )</code></pre>
 <pre><code>## Established _targets.R and _targets_r/targets/cv.R.</code></pre>
-<div id="time-series-cross-validation-report" class="section level4">
-<h4>Time Series Cross Validation Report</h4>
+<div id="report-1" class="section level4" number="1.2.3.1">
+<h4 number="1.2.3.1"><span class="header-section-number">1.2.3.1</span> Report</h4>
 <p><a href="02_cv.html">link</a></p>
 <pre class="r"><code>tarchetypes::tar_render(
   report_cv,
@@ -497,11 +497,11 @@ purrr::map(dir(&quot;./src/R&quot;, full.names = TRUE), source)</code></pre>
 <pre><code>## Established _targets.R and _targets_r/targets/report_cv.R.</code></pre>
 </div>
 </div>
-<div id="performance" class="section level3">
-<h3>Performance</h3>
+<div id="performance" class="section level3" number="1.2.4">
+<h3 number="1.2.4"><span class="header-section-number">1.2.4</span> Performance</h3>
 <pre class="r"><code>list(
   tar_target(df_perf, qract_perf(df_cv_preds_and_coefs, config$max_year)),
-  tar_target(df_calib, qract_lin_calib(df_cv_preds_and_coefs)),
+  tar_target(df_calib, qract_lin_calib(df_cv_preds_and_coefs, min_sample_size = 200)),
   tar_target(df_bin, qract_bin_preds(df_cv_preds_and_coefs, n_bins = 4, confidence_level = .75)),
   tar_target(
     p_calib,
@@ -516,8 +516,8 @@ purrr::map(dir(&quot;./src/R&quot;, full.names = TRUE), source)</code></pre>
   )
 )</code></pre>
 <pre><code>## Established _targets.R and _targets_r/targets/perf.R.</code></pre>
-<div id="performance-report" class="section level4">
-<h4>Performance Report</h4>
+<div id="report-2" class="section level4" number="1.2.4.1">
+<h4 number="1.2.4.1"><span class="header-section-number">1.2.4.1</span> Report</h4>
 <p><a href="03_perf.html">link</a></p>
 <pre class="r"><code>tarchetypes::tar_render(
   report_perf,
@@ -529,26 +529,36 @@ purrr::map(dir(&quot;./src/R&quot;, full.names = TRUE), source)</code></pre>
 <pre><code>## Established _targets.R and _targets_r/targets/report_perf.R.</code></pre>
 </div>
 </div>
-<div id="forest-plots" class="section level3">
-<h3>Forest Plots</h3>
-<pre class="r"><code>tar_target(
-  df_forest,
-  qract_forest_plots(
-    df_cv_preds_and_coefs,
-    df_feat_lookup,
-    df_mm,
-    df_cat_lookup,
-    category_ids = c(
-      &quot;cnsn&quot;,
-      &quot;dtin&quot;,
-      &quot;sfty&quot;,
-      &quot;ptpe&quot;
+<div id="forest-plots" class="section level3" number="1.2.5">
+<h3 number="1.2.5"><span class="header-section-number">1.2.5</span> Forest Plots</h3>
+<pre class="r"><code>list(
+    tar_target(
+      df_forest,
+      qract_forest_plots(
+        df_cv_preds_and_coefs,
+        df_feat_lookup,
+        df_mm,
+        df_cat_lookup,
+        category_ids = c(
+          &quot;cnsn&quot;,
+          &quot;dtin&quot;,
+          &quot;sfty&quot;,
+          &quot;ptpe&quot;
+        )
+      )
+    ),
+    tar_target(
+      forest_files,
+      qract_save_forest_plots(
+        df_forest,
+        path = &quot;./png&quot;
+      ),
+      format = &quot;file&quot;
     )
-  )
 )</code></pre>
 <pre><code>## Established _targets.R and _targets_r/targets/forest.R.</code></pre>
-<div id="forest-plots-report" class="section level4">
-<h4>Forest Plots Report</h4>
+<div id="report-3" class="section level4" number="1.2.5.1">
+<h4 number="1.2.5.1"><span class="header-section-number">1.2.5.1</span> Report</h4>
 <p><a href="%22./04_forest.html%22">link</a></p>
 <pre class="r"><code>tarchetypes::tar_render(
   report_forest,
@@ -561,48 +571,50 @@ purrr::map(dir(&quot;./src/R&quot;, full.names = TRUE), source)</code></pre>
 </div>
 </div>
 </div>
-<div id="run-workflow" class="section level2">
-<h2>Run Workflow</h2>
+<div id="run-workflow" class="section level2" number="1.3">
+<h2 number="1.3"><span class="header-section-number">1.3</span> Run Workflow</h2>
 <pre class="r"><code>tar_make()
-## ✓ skip target config
-## ✓ skip target file_form
-## ✓ skip target file_cat_lookup
-## ✓ skip target file_cv
-## ✓ skip target file_mm
-## ✓ skip target file_mm_bin
-## ✓ skip target file_feat_lookup
-## ✓ skip target df_form
-## ✓ skip target df_cat_lookup
-## ✓ skip target df_cv
-## ✓ skip target df_mm
-## ✓ skip target df_mm_bin
-## ✓ skip target df_feat_lookup
-## ✓ skip target p_tscv
-## ✓ skip target df_cv_preds_and_coefs
-## ✓ skip target report_data
-## ✓ skip target df_bin
-## ✓ skip target df_forest
-## ✓ skip target df_calib
-## ✓ skip target report_cv
-## ✓ skip target df_perf
-## ✓ skip target report_forest
-## ✓ skip target p_calib
-## ✓ skip target report_perf
-## ✓ skip pipeline</code></pre>
+## ✔ skip target file_mm
+## ✔ skip target file_form
+## ✔ skip target config
+## ✔ skip target file_cat_lookup
+## ✔ skip target file_cv
+## ✔ skip target file_feat_lookup
+## ✔ skip target file_mm_bin
+## ✔ skip target df_form
+## ✔ skip target df_mm
+## ✔ skip target df_cat_lookup
+## ✔ skip target df_cv
+## ✔ skip target df_feat_lookup
+## ✔ skip target df_mm_bin
+## ✔ skip target p_tscv
+## ✔ skip target df_cv_preds_and_coefs
+## ✔ skip target report_data
+## ✔ skip target df_perf
+## ✔ skip target report_cv
+## ✔ skip target df_bin
+## ✔ skip target df_calib
+## ✔ skip target df_forest
+## ✔ skip target p_calib
+## ✔ skip target report_forest
+## • start target forest_files
+## • built target forest_files
+## ✔ skip target report_perf
+## • end pipeline</code></pre>
 </div>
-<div id="visualise-workflow" class="section level2">
-<h2>Visualise Workflow</h2>
-<div id="without-functions" class="section level3">
-<h3>Without Functions</h3>
+<div id="visualise-workflow" class="section level2" number="1.4">
+<h2 number="1.4"><span class="header-section-number">1.4</span> Visualise Workflow</h2>
+<div id="without-functions" class="section level3" number="1.4.1">
+<h3 number="1.4.1"><span class="header-section-number">1.4.1</span> Without Functions</h3>
 <pre class="r"><code>tar_visnetwork(targets_only = TRUE, reporter = &quot;silent&quot;)</code></pre>
-<div id="htmlwidget-92d8a0a48b4a68643561" style="width:960px;height:672px;" class="visNetwork html-widget"></div>
-<script type="application/json" data-for="htmlwidget-92d8a0a48b4a68643561">{"x":{"nodes":{"name":["config","df_bin","df_calib","df_cat_lookup","df_cv","df_cv_preds_and_coefs","df_feat_lookup","df_forest","df_form","df_mm","df_mm_bin","df_perf","file_cat_lookup","file_cv","file_feat_lookup","file_form","file_mm","file_mm_bin","p_calib","p_tscv","report_cv","report_data","report_forest","report_perf"],"type":["stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem"],"status":["uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate"],"seconds":[0.368,0.587,6.067,0.008,0.008,10.533,0.587,5.726,0.084,0.22,0.465,0.207,0.002,0.001,0.001,0.002,0.001,0.001,0.459,0.97,3.067,3.836,223.469,2.985],"bytes":[310,1433,3778,9711,15642,121829,27922,18350415,486,4388839,1569448,401,66704,146920,126879,1136,25178448,99174136,135038,154365,4831682,4942977,6486232,4486307],"branches":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],"id":["config","df_bin","df_calib","df_cat_lookup","df_cv","df_cv_preds_and_coefs","df_feat_lookup","df_forest","df_form","df_mm","df_mm_bin","df_perf","file_cat_lookup","file_cv","file_feat_lookup","file_form","file_mm","file_mm_bin","p_calib","p_tscv","report_cv","report_data","report_forest","report_perf"],"label":["config","df_bin","df_calib","df_cat_lookup","df_cv","df_cv_preds_and_coefs","df_feat_lookup","df_forest","df_form","df_mm","df_mm_bin","df_perf","file_cat_lookup","file_cv","file_feat_lookup","file_form","file_mm","file_mm_bin","p_calib","p_tscv","report_cv","report_data","report_forest","report_perf"],"level":[1,4,4,2,2,3,2,4,2,2,2,4,1,1,1,1,1,1,5,3,4,3,5,6],"color":["#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823"],"shape":["dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot"]},"edges":{"from":["df_cv_preds_and_coefs","config","file_form","df_forest","df_cv_preds_and_coefs","config","file_cv","config","file_cat_lookup","config","df_cv","df_form","df_mm_bin","df_cv_preds_and_coefs","p_tscv","config","file_mm","config","file_mm_bin","config","df_cv","df_mm","df_calib","df_perf","p_calib","df_cat_lookup","df_cv_preds_and_coefs","df_feat_lookup","df_mm","df_cat_lookup","df_cv","df_feat_lookup","df_form","df_mm","df_mm_bin","config","file_feat_lookup","config","df_cv_preds_and_coefs","df_bin","df_calib","df_cat_lookup","df_cv_preds_and_coefs"],"to":["df_bin","df_form","df_form","report_forest","df_calib","df_cv","df_cv","df_cat_lookup","df_cat_lookup","df_cv_preds_and_coefs","df_cv_preds_and_coefs","df_cv_preds_and_coefs","df_cv_preds_and_coefs","report_cv","report_cv","df_mm","df_mm","df_mm_bin","df_mm_bin","p_tscv","p_tscv","p_tscv","report_perf","report_perf","report_perf","df_forest","df_forest","df_forest","df_forest","report_data","report_data","report_data","report_data","report_data","report_data","df_feat_lookup","df_feat_lookup","df_perf","df_perf","p_calib","p_calib","p_calib","p_calib"],"arrows":["to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":false},"manipulation":{"enabled":false},"edges":{"smooth":{"type":"cubicBezier","forceDirection":"horizontal"}},"physics":{"stabilization":false},"layout":{"hierarchical":{"enabled":true,"direction":"LR"}}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":true,"hoverNearest":false,"degree":{"from":1,"to":1},"algorithm":"hierarchical","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":true,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"legend":{"width":0.2,"useGroups":false,"position":"right","ncol":1,"stepX":100,"stepY":100,"zoom":true,"nodes":{"label":["Up to date","Stem"],"color":["#354823","#899DA4"],"shape":["dot","dot"]},"nodesToDataframe":true}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-070a8b345228571758f5" style="width:960px;height:672px;" class="visNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-070a8b345228571758f5">{"x":{"nodes":{"name":["config","df_bin","df_calib","df_cat_lookup","df_cv","df_cv_preds_and_coefs","df_feat_lookup","df_forest","df_form","df_mm","df_mm_bin","df_perf","file_cat_lookup","file_cv","file_feat_lookup","file_form","file_mm","file_mm_bin","forest_files","p_calib","p_tscv","report_cv","report_data","report_forest","report_perf"],"type":["stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem"],"status":["uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate"],"seconds":[0.368,1.238,0.598,0.008,0.008,19.408,0.587,13.547,0.084,0.22,0.465,0.662,0.002,0.001,0.001,0.002,0.001,0.001,221.223,0.472,0.97,3.23,3.976,257.428,3.637],"bytes":[310,1433,3891,9711,15642,126205,27922,18373973,486,4388839,1569448,401,66704,146920,126879,1136,25178448,99174136,1486978,130309,154365,4837404,4939060,6486232,4488455],"branches":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],"id":["config","df_bin","df_calib","df_cat_lookup","df_cv","df_cv_preds_and_coefs","df_feat_lookup","df_forest","df_form","df_mm","df_mm_bin","df_perf","file_cat_lookup","file_cv","file_feat_lookup","file_form","file_mm","file_mm_bin","forest_files","p_calib","p_tscv","report_cv","report_data","report_forest","report_perf"],"label":["config","df_bin","df_calib","df_cat_lookup","df_cv","df_cv_preds_and_coefs","df_feat_lookup","df_forest","df_form","df_mm","df_mm_bin","df_perf","file_cat_lookup","file_cv","file_feat_lookup","file_form","file_mm","file_mm_bin","forest_files","p_calib","p_tscv","report_cv","report_data","report_forest","report_perf"],"level":[1,4,4,2,2,3,2,4,2,2,2,4,1,1,1,1,1,1,5,5,3,4,3,5,6],"color":["#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823"],"shape":["dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot"]},"edges":{"from":["config","df_cv_preds_and_coefs","df_cat_lookup","df_cv","df_feat_lookup","df_form","df_mm","df_mm_bin","config","df_cv","df_form","df_mm_bin","df_cv_preds_and_coefs","p_tscv","config","file_cv","df_cv_preds_and_coefs","config","file_feat_lookup","df_calib","df_cv_preds_and_coefs","df_perf","p_calib","config","df_cv","df_mm","df_forest","df_forest","df_cat_lookup","df_cv_preds_and_coefs","df_feat_lookup","df_mm","config","file_cat_lookup","config","file_mm","df_cv_preds_and_coefs","config","file_form","df_bin","df_calib","df_cat_lookup","df_cv_preds_and_coefs","config","file_mm_bin"],"to":["df_perf","df_perf","report_data","report_data","report_data","report_data","report_data","report_data","df_cv_preds_and_coefs","df_cv_preds_and_coefs","df_cv_preds_and_coefs","df_cv_preds_and_coefs","report_cv","report_cv","df_cv","df_cv","df_bin","df_feat_lookup","df_feat_lookup","report_perf","report_perf","report_perf","report_perf","p_tscv","p_tscv","p_tscv","report_forest","forest_files","df_forest","df_forest","df_forest","df_forest","df_cat_lookup","df_cat_lookup","df_mm","df_mm","df_calib","df_form","df_form","p_calib","p_calib","p_calib","p_calib","df_mm_bin","df_mm_bin"],"arrows":["to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":false},"manipulation":{"enabled":false},"edges":{"smooth":{"type":"cubicBezier","forceDirection":"horizontal"}},"physics":{"stabilization":false},"layout":{"hierarchical":{"enabled":true,"direction":"LR"}}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":true,"hoverNearest":false,"degree":{"from":1,"to":1},"algorithm":"hierarchical","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":true,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"legend":{"width":0.2,"useGroups":false,"position":"right","ncol":1,"stepX":100,"stepY":100,"zoom":true,"nodes":{"label":["Up to date","Stem"],"color":["#354823","#899DA4"],"shape":["dot","dot"]},"nodesToDataframe":true}},"evals":[],"jsHooks":[]}</script>
 </div>
-<div id="with-functions" class="section level3">
-<h3>With Functions</h3>
+<div id="with-functions" class="section level3" number="1.4.2">
+<h3 number="1.4.2"><span class="header-section-number">1.4.2</span> With Functions</h3>
 <pre class="r"><code>tar_visnetwork(reporter = &quot;silent&quot;)</code></pre>
-<div id="htmlwidget-22c8a3d5e024a173e41a" style="width:1152px;height:1728px;" class="visNetwork html-widget"></div>
-<script type="application/json" data-for="htmlwidget-22c8a3d5e024a173e41a">{"x":{"nodes":{"name":["config","df_bin","df_calib","df_cat_lookup","df_cv","df_cv_preds_and_coefs","df_feat_lookup","df_forest","df_form","df_mm","df_mm_bin","df_perf","file_cat_lookup","file_cv","file_feat_lookup","file_form","file_mm","file_mm_bin","p_calib","p_tscv","report_cv","report_data","report_forest","report_perf","qract_plot_coef","qract_is_better","qract_cut_relax","qract_plot_calibration","qract_pretty_category","qract_str_index_2_int_index","qract_get_bin_stats","qract_plot_hist","qract_read_and_anonymize","qract_perf","qract_pretty_number","qract_fit_linear_calibration","qract_plot_coef_time","qract_get_variables_from_formula","qract_get_pred_boundary","qract_bin","qract_plot_calibration_pub","qract_plot_tscv","qract_plot_tab","qract_filter_na","qract_get_pred_boundaries","qract_bin_preds","qract_forest_plots","qract_wr_glm","qract_linear_calib_map","qract_pred_cv","qract_lin_calib"],"type":["stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function"],"status":["uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate"],"seconds":[0.368,0.587,6.067,0.008,0.008,10.533,0.587,5.726,0.084,0.22,0.465,0.207,0.002,0.001,0.001,0.002,0.001,0.001,0.459,0.97,3.067,3.836,223.469,2.985,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],"bytes":[310,1433,3778,9711,15642,121829,27922,18350415,486,4388839,1569448,401,66704,146920,126879,1136,25178448,99174136,135038,154365,4831682,4942977,6486232,4486307,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],"branches":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],"id":["config","df_bin","df_calib","df_cat_lookup","df_cv","df_cv_preds_and_coefs","df_feat_lookup","df_forest","df_form","df_mm","df_mm_bin","df_perf","file_cat_lookup","file_cv","file_feat_lookup","file_form","file_mm","file_mm_bin","p_calib","p_tscv","report_cv","report_data","report_forest","report_perf","qract_plot_coef","qract_is_better","qract_cut_relax","qract_plot_calibration","qract_pretty_category","qract_str_index_2_int_index","qract_get_bin_stats","qract_plot_hist","qract_read_and_anonymize","qract_perf","qract_pretty_number","qract_fit_linear_calibration","qract_plot_coef_time","qract_get_variables_from_formula","qract_get_pred_boundary","qract_bin","qract_plot_calibration_pub","qract_plot_tscv","qract_plot_tab","qract_filter_na","qract_get_pred_boundaries","qract_bin_preds","qract_forest_plots","qract_wr_glm","qract_linear_calib_map","qract_pred_cv","qract_lin_calib"],"label":["config","df_bin","df_calib","df_cat_lookup","df_cv","df_cv_preds_and_coefs","df_feat_lookup","df_forest","df_form","df_mm","df_mm_bin","df_perf","file_cat_lookup","file_cv","file_feat_lookup","file_form","file_mm","file_mm_bin","p_calib","p_tscv","report_cv","report_data","report_forest","report_perf","qract_plot_coef","qract_is_better","qract_cut_relax","qract_plot_calibration","qract_pretty_category","qract_str_index_2_int_index","qract_get_bin_stats","qract_plot_hist","qract_read_and_anonymize","qract_perf","qract_pretty_number","qract_fit_linear_calibration","qract_plot_coef_time","qract_get_variables_from_formula","qract_get_pred_boundary","qract_bin","qract_plot_calibration_pub","qract_plot_tscv","qract_plot_tab","qract_filter_na","qract_get_pred_boundaries","qract_bin_preds","qract_forest_plots","qract_wr_glm","qract_linear_calib_map","qract_pred_cv","qract_lin_calib"],"level":[1,6,6,2,2,5,2,6,2,2,2,6,1,1,1,1,1,1,7,3,6,3,7,8,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,3,3,3,3,4,4,5],"color":["#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823"],"shape":["dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle"]},"edges":{"from":["qract_plot_coef","qract_filter_na","qract_wr_glm","qract_get_pred_boundary","qract_get_pred_boundaries","qract_is_better","qract_bin","qract_cut_relax","qract_linear_calib_map","qract_plot_calibration","qract_pretty_category","qract_pretty_category","qract_str_index_2_int_index","qract_str_index_2_int_index","qract_plot_tab","qract_get_bin_stats","qract_plot_hist","qract_pretty_number","qract_fit_linear_calibration","qract_plot_coef_time","qract_get_variables_from_formula","df_cv_preds_and_coefs","qract_bin_preds","config","file_form","qract_read_and_anonymize","df_forest","df_cv_preds_and_coefs","qract_lin_calib","config","file_cv","qract_read_and_anonymize","config","file_cat_lookup","qract_read_and_anonymize","config","df_cv","df_form","df_mm_bin","qract_pred_cv","df_cv_preds_and_coefs","p_tscv","config","file_mm","qract_read_and_anonymize","config","file_mm_bin","qract_read_and_anonymize","config","df_cv","df_mm","qract_plot_tscv","df_calib","df_perf","p_calib","df_cat_lookup","df_cv_preds_and_coefs","df_feat_lookup","df_mm","qract_forest_plots","df_cat_lookup","df_cv","df_feat_lookup","df_form","df_mm","df_mm_bin","config","file_feat_lookup","qract_read_and_anonymize","config","df_cv_preds_and_coefs","qract_perf","df_bin","df_calib","df_cat_lookup","df_cv_preds_and_coefs","qract_plot_calibration_pub"],"to":["qract_plot_tab","qract_wr_glm","qract_pred_cv","qract_get_pred_boundaries","qract_linear_calib_map","qract_get_pred_boundary","qract_bin_preds","qract_bin","qract_lin_calib","qract_plot_calibration_pub","qract_plot_calibration_pub","qract_plot_tab","qract_plot_tscv","qract_pred_cv","qract_forest_plots","qract_plot_tab","qract_plot_tab","qract_plot_tab","qract_linear_calib_map","qract_plot_tab","qract_filter_na","df_bin","df_bin","df_form","df_form","df_form","report_forest","df_calib","df_calib","df_cv","df_cv","df_cv","df_cat_lookup","df_cat_lookup","df_cat_lookup","df_cv_preds_and_coefs","df_cv_preds_and_coefs","df_cv_preds_and_coefs","df_cv_preds_and_coefs","df_cv_preds_and_coefs","report_cv","report_cv","df_mm","df_mm","df_mm","df_mm_bin","df_mm_bin","df_mm_bin","p_tscv","p_tscv","p_tscv","p_tscv","report_perf","report_perf","report_perf","df_forest","df_forest","df_forest","df_forest","df_forest","report_data","report_data","report_data","report_data","report_data","report_data","df_feat_lookup","df_feat_lookup","df_feat_lookup","df_perf","df_perf","df_perf","p_calib","p_calib","p_calib","p_calib","p_calib"],"arrows":["to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":false},"manipulation":{"enabled":false},"edges":{"smooth":{"type":"cubicBezier","forceDirection":"horizontal"}},"physics":{"stabilization":false},"layout":{"hierarchical":{"enabled":true,"direction":"LR"}}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":true,"hoverNearest":false,"degree":{"from":1,"to":1},"algorithm":"hierarchical","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":true,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"legend":{"width":0.2,"useGroups":false,"position":"right","ncol":1,"stepX":100,"stepY":100,"zoom":true,"nodes":{"label":["Up to date","Stem","Function"],"color":["#354823","#899DA4","#899DA4"],"shape":["dot","dot","triangle"]},"nodesToDataframe":true}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-c90451b707fddf284c5e" style="width:1152px;height:1728px;" class="visNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c90451b707fddf284c5e">{"x":{"nodes":{"name":["config","df_bin","df_calib","df_cat_lookup","df_cv","df_cv_preds_and_coefs","df_feat_lookup","df_forest","df_form","df_mm","df_mm_bin","df_perf","file_cat_lookup","file_cv","file_feat_lookup","file_form","file_mm","file_mm_bin","forest_files","p_calib","p_tscv","report_cv","report_data","report_forest","report_perf","qract_plot_coef","qract_is_better","qract_cut_relax","qract_plot_calibration","qract_pretty_category","qract_str_index_2_int_index","qract_save_forest_plots","qract_get_bin_stats","qract_plot_hist","qract_read_and_anonymize","qract_perf","qract_pretty_number","qract_fit_linear_calibration","qract_plot_coef_time","qract_get_variables_from_formula","qract_get_pred_boundary","qract_bin","qract_plot_calibration_pub","qract_plot_tscv","qract_plot_tab","qract_filter_na","qract_get_pred_boundaries","qract_bin_preds","qract_forest_plots","qract_wr_glm","qract_linear_calib_map","qract_pred_cv","qract_lin_calib"],"type":["stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","stem","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function"],"status":["uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate"],"seconds":[0.368,1.238,0.598,0.008,0.008,19.408,0.587,13.547,0.084,0.22,0.465,0.662,0.002,0.001,0.001,0.002,0.001,0.001,221.223,0.472,0.97,3.23,3.976,257.428,3.637,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],"bytes":[310,1433,3891,9711,15642,126205,27922,18373973,486,4388839,1569448,401,66704,146920,126879,1136,25178448,99174136,1486978,130309,154365,4837404,4939060,6486232,4488455,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],"branches":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],"id":["config","df_bin","df_calib","df_cat_lookup","df_cv","df_cv_preds_and_coefs","df_feat_lookup","df_forest","df_form","df_mm","df_mm_bin","df_perf","file_cat_lookup","file_cv","file_feat_lookup","file_form","file_mm","file_mm_bin","forest_files","p_calib","p_tscv","report_cv","report_data","report_forest","report_perf","qract_plot_coef","qract_is_better","qract_cut_relax","qract_plot_calibration","qract_pretty_category","qract_str_index_2_int_index","qract_save_forest_plots","qract_get_bin_stats","qract_plot_hist","qract_read_and_anonymize","qract_perf","qract_pretty_number","qract_fit_linear_calibration","qract_plot_coef_time","qract_get_variables_from_formula","qract_get_pred_boundary","qract_bin","qract_plot_calibration_pub","qract_plot_tscv","qract_plot_tab","qract_filter_na","qract_get_pred_boundaries","qract_bin_preds","qract_forest_plots","qract_wr_glm","qract_linear_calib_map","qract_pred_cv","qract_lin_calib"],"label":["config","df_bin","df_calib","df_cat_lookup","df_cv","df_cv_preds_and_coefs","df_feat_lookup","df_forest","df_form","df_mm","df_mm_bin","df_perf","file_cat_lookup","file_cv","file_feat_lookup","file_form","file_mm","file_mm_bin","forest_files","p_calib","p_tscv","report_cv","report_data","report_forest","report_perf","qract_plot_coef","qract_is_better","qract_cut_relax","qract_plot_calibration","qract_pretty_category","qract_str_index_2_int_index","qract_save_forest_plots","qract_get_bin_stats","qract_plot_hist","qract_read_and_anonymize","qract_perf","qract_pretty_number","qract_fit_linear_calibration","qract_plot_coef_time","qract_get_variables_from_formula","qract_get_pred_boundary","qract_bin","qract_plot_calibration_pub","qract_plot_tscv","qract_plot_tab","qract_filter_na","qract_get_pred_boundaries","qract_bin_preds","qract_forest_plots","qract_wr_glm","qract_linear_calib_map","qract_pred_cv","qract_lin_calib"],"level":[1,6,6,2,2,5,2,6,2,2,2,6,1,1,1,1,1,1,7,7,3,6,3,7,8,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,3,3,3,3,4,4,5],"color":["#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823"],"shape":["dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle"]},"edges":{"from":["qract_plot_coef","qract_filter_na","qract_wr_glm","qract_get_pred_boundary","qract_get_pred_boundaries","qract_is_better","qract_bin","qract_cut_relax","qract_linear_calib_map","qract_plot_calibration","qract_pretty_category","qract_pretty_category","qract_str_index_2_int_index","qract_str_index_2_int_index","qract_plot_tab","qract_get_bin_stats","qract_plot_hist","qract_pretty_number","qract_fit_linear_calibration","qract_plot_coef_time","qract_get_variables_from_formula","config","df_cv_preds_and_coefs","qract_perf","df_cat_lookup","df_cv","df_feat_lookup","df_form","df_mm","df_mm_bin","config","df_cv","df_form","df_mm_bin","qract_pred_cv","df_cv_preds_and_coefs","p_tscv","config","file_cv","qract_read_and_anonymize","df_cv_preds_and_coefs","qract_bin_preds","config","file_feat_lookup","qract_read_and_anonymize","df_calib","df_cv_preds_and_coefs","df_perf","p_calib","config","df_cv","df_mm","qract_plot_tscv","df_forest","df_forest","qract_save_forest_plots","df_cat_lookup","df_cv_preds_and_coefs","df_feat_lookup","df_mm","qract_forest_plots","config","file_cat_lookup","qract_read_and_anonymize","config","file_mm","qract_read_and_anonymize","df_cv_preds_and_coefs","qract_lin_calib","config","file_form","qract_read_and_anonymize","df_bin","df_calib","df_cat_lookup","df_cv_preds_and_coefs","qract_plot_calibration_pub","config","file_mm_bin","qract_read_and_anonymize"],"to":["qract_plot_tab","qract_wr_glm","qract_pred_cv","qract_get_pred_boundaries","qract_linear_calib_map","qract_get_pred_boundary","qract_bin_preds","qract_bin","qract_lin_calib","qract_plot_calibration_pub","qract_plot_calibration_pub","qract_plot_tab","qract_plot_tscv","qract_pred_cv","qract_forest_plots","qract_plot_tab","qract_plot_tab","qract_plot_tab","qract_linear_calib_map","qract_plot_tab","qract_filter_na","df_perf","df_perf","df_perf","report_data","report_data","report_data","report_data","report_data","report_data","df_cv_preds_and_coefs","df_cv_preds_and_coefs","df_cv_preds_and_coefs","df_cv_preds_and_coefs","df_cv_preds_and_coefs","report_cv","report_cv","df_cv","df_cv","df_cv","df_bin","df_bin","df_feat_lookup","df_feat_lookup","df_feat_lookup","report_perf","report_perf","report_perf","report_perf","p_tscv","p_tscv","p_tscv","p_tscv","report_forest","forest_files","forest_files","df_forest","df_forest","df_forest","df_forest","df_forest","df_cat_lookup","df_cat_lookup","df_cat_lookup","df_mm","df_mm","df_mm","df_calib","df_calib","df_form","df_form","df_form","p_calib","p_calib","p_calib","p_calib","p_calib","df_mm_bin","df_mm_bin","df_mm_bin"],"arrows":["to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":false},"manipulation":{"enabled":false},"edges":{"smooth":{"type":"cubicBezier","forceDirection":"horizontal"}},"physics":{"stabilization":false},"layout":{"hierarchical":{"enabled":true,"direction":"LR"}}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":true,"hoverNearest":false,"degree":{"from":1,"to":1},"algorithm":"hierarchical","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":true,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"legend":{"width":0.2,"useGroups":false,"position":"right","ncol":1,"stepX":100,"stepY":100,"zoom":true,"nodes":{"label":["Up to date","Stem","Function"],"color":["#354823","#899DA4","#899DA4"],"shape":["dot","dot","triangle"]},"nodesToDataframe":true}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </div>

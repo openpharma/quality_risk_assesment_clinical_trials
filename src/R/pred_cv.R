@@ -92,8 +92,10 @@ qract_wr_glm <- function(year,
   safe <- safely_glm(form, df_train, family = "binomial")
 
   if (is.null(safe$error)) {
+    
     m <- safe$result
-
+    
+    # predictions -----------------------------------------------------------
     safe_pred_train <- safely_predict(m, newdata = df_train, type = "response")
     safe_pred_valid <- safely_predict(m, newdata = df_valid, type = "response")
 
@@ -109,10 +111,12 @@ qract_wr_glm <- function(year,
       df_valid$pred_yes <- integer()
     }
 
+    # coefficients ----------------------------------------------------------
     coe <- m %>%
       broom::tidy() %>%
       rename(names = term, x = estimate)
-
+    
+    # coefficients confidence intervals -------------------------------------
     safely_ci <- safely(confint)
 
     suppressMessages({
@@ -134,6 +138,24 @@ qract_wr_glm <- function(year,
           ci95_high = NA
         )
     }
+    
+    # vif --------------------------------------------------------------------
+    safely_vif <- purrr::safely(car::vif)
+    safe_vif <- safely_vif(m)
+    
+    if (is.null(safe_vif$error)) {
+      vif <- safe_vif$result
+      vif_df <- tibble(
+        names = names(vif),
+        vif = vif
+      )
+      coe <- coe %>%
+        left_join(vif_df, by = "names")
+    } else {
+      coe$vif <- NA
+    }
+    
+    
   } else {
     print("glm could not be fitted")
     print(safe$error)
