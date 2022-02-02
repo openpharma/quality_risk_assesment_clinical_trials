@@ -17,12 +17,12 @@
 This repository contains part of the analysis code used for:
 
 
-Koneswarakantha, B., Ménard, T. *An update on statistical modeling for quality risk assessment of clinical trials.* (preprint) [https://doi.org/10.1101/2021.07.12.21260214](https://doi.org/10.1101/2021.07.12.21260214)
+Koneswarakantha, B., Ménard, T. *Statistical modeling for quality risk assessment of clinical trials: follow-up at the era of remote auditing* (under-review) [Therapeutic Innovation & Regulatory Science](https://www.springer.com/journal/43441)
 
 
 **Background** - As investigator site audits have largely been conducted remotely during the COVID-19 pandemic, remote quality monitoring has gained some momentum. To further facilitate the conduct of remote Quality Assurance (QA) activities, we developed new quality indicators, building on a previously published statistical modelling methodology.   
-**Methods** - We modeled the risk of having an audit or inspection finding using historical audits and inspections data from 2011 - 2019. We used logistic regression to model finding risk for 4 clinical impact factor (CIF) categories: Safety Reporting, Data Integrity, Consent and Protecting Endpoints.  
-**Results** - Resulting Area Under the Receiver Operating Characteristic Curves were between 0.59 - 0.63 with calibrated predictive ranges of 25 - 43%. The combined and adjusted risk factors could be used to easily interpret risk estimates. 
+**Methods** - We modeled the risk of having an audit or inspection finding using historical audits and inspections data from 2011 - 2019. We used logistic regression to model finding risk for 4 clinical impact factor (CIF) categories: Safety Reporting, Data Integrity, Consent and Protecting Endpoints.   
+**Results** - Resulting Area Under the Receiver Operating Characteristic Curves were between 0.59 - 0.63 with calibrated predictive ranges of 25 - 43%. The combined and adjusted risk factors could be used to easily interpret risk estimates.   
 **Conclusion** - Continuous surveillance of the identified risk factors and resulting risk estimates could be used to complement remote QA strategies and help to manage audit targets and audit focus also in post-pandemic times.   
 
 ## Anonymization
@@ -32,7 +32,7 @@ We do not share any non-public data on clinical trials or company IT systems to 
 - data preparation and features selection steps were removed   
 - all internal IDs were removed  
 - geographic locations were removed 
-- all dates where removed except for `start_date` which was to the first day of the corresponding year  
+- all dates where removed except for `start_date` which was set to the first day of the corresponding year  
 
 ## Documentation and Code Output
 
